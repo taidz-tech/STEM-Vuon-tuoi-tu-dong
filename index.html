@@ -3,15 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STEM Hóa Học | Vườn Nhựa Tái Chế Tuần Hoàn &amp; Thác Nước 3D</title>
+  <title>STEM Hóa Học | Hệ Sinh Thái Aquaponics Tái Chế & Thác Nước 3D</title>
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Three.js r128 CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -36,142 +32,58 @@
   </script>
 
   <style>
-    /* Custom Glassmorphism, Scrollbar & Cosmic Glow Effects */
-    :root {
-      color-scheme: dark;
-    }
-
-    body {
-      background-color: #020512;
-      color: #f1f5f9;
-      overflow-x: hidden;
-    }
-
-    /* Animated Spiral Galaxy Background Canvas */
-    #galaxy-bg {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Main Content Overlay */
-    .content-layer {
-      position: relative;
-      z-index: 10;
-    }
-
-    /* Glassmorphism Cards */
+    :root { color-scheme: dark; }
+    body { background-color: #020512; color: #f1f5f9; overflow-x: hidden; }
+    #galaxy-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+    .content-layer { position: relative; z-index: 10; }
     .glass-card {
-      background: linear-gradient(145deg, rgba(11, 20, 44, 0.72), rgba(6, 12, 30, 0.82));
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      background: linear-gradient(145deg, rgba(11, 20, 44, 0.75), rgba(6, 12, 30, 0.85));
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(56, 189, 248, 0.22);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
-
     .glass-panel {
-      background: rgba(8, 16, 36, 0.78);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(8, 16, 36, 0.8);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(148, 163, 184, 0.2);
     }
-
     .glass-nav {
-      background: rgba(4, 9, 24, 0.75);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(4, 9, 24, 0.78);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
       border-bottom: 1px solid rgba(56, 189, 248, 0.2);
     }
-
-    /* Gradient Text */
     .text-cosmic-gradient {
       background: linear-gradient(110deg, #e0f2fe 0%, #38bdf8 38%, #34d399 75%, #c4b5fd 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
-    /* 3D Viewport Container */
     #viewer-3d {
-      touch-action: none;
-      cursor: grab;
+      touch-action: none; cursor: grab;
       background: radial-gradient(circle at 50% 45%, rgba(20, 42, 82, 0.55) 0%, rgba(4, 9, 24, 0.92) 78%);
     }
-
-    #viewer-3d:active {
-      cursor: grabbing;
-    }
-
-    /* Custom Range Sliders */
+    #viewer-3d:active { cursor: grabbing; }
     input[type="range"].cosmic-slider {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 8px;
-      border-radius: 999px;
-      background: rgba(30, 41, 59, 0.9);
-      outline: none;
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 999px;
+      background: rgba(30, 41, 59, 0.9); outline: none; border: 1px solid rgba(56, 189, 248, 0.25);
     }
-
     input[type="range"].cosmic-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #38bdf8, #34d399);
-      cursor: pointer;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
-      border: 2px solid #ffffff;
+      -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%;
+      background: linear-gradient(135deg, #38bdf8, #34d399); cursor: pointer;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8); border: 2px solid #fff;
     }
-
-    input[type="range"].cosmic-slider::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #38bdf8, #34d399);
-      cursor: pointer;
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
-      border: 2px solid #ffffff;
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #030714;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(56, 189, 248, 0.35);
-      border-radius: 999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(52, 211, 153, 0.6);
-    }
-
-    /* Toast animation */
-    .toast-enter {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    .toast-exit {
-      transform: translateY(20px);
-      opacity: 0;
-    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #030714; }
+    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.35); border-radius: 999px; }
+    .toast-enter { transform: translateY(0); opacity: 1; }
+    .toast-exit { transform: translateY(20px); opacity: 0; }
+    .alert-blink { animation: blinkRed 1s infinite; }
+    @keyframes blinkRed { 0%,100% { box-shadow: 0 0 0 0 rgba(244,63,94,.45); } 50% { box-shadow: 0 0 18px 2px rgba(244,63,94,.85); } }
   </style>
 </head>
 <body class="font-sans antialiased selection:bg-sky-400/30 selection:text-sky-100">
 
-  <!-- Animated Spiral Galaxy Canvas Background -->
   <canvas id="galaxy-bg" aria-hidden="true"></canvas>
 
-  <!-- Toast Notification (replaces alert/confirm) -->
+  <!-- Toast -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 pointer-events-none transition-all duration-300 toast-exit">
     <div class="glass-card rounded-2xl px-4 py-3 flex items-center gap-3 border border-emerald-400/40 shadow-2xl max-w-xs sm:max-w-sm">
       <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
@@ -179,293 +91,139 @@
     </div>
   </div>
 
-  <!-- Main Content Layer -->
   <div class="content-layer">
 
-    <!-- Top Floating Navigation Bar -->
+    <!-- Navigation -->
     <header class="glass-nav sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="#top" class="flex items-center gap-3 group">
+        <a href="#top" class="flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-sky-500 flex items-center justify-center shadow-lg shadow-sky-500/25">
-            <!-- Leaf + Recycle SVG Icon -->
             <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0113.2-4.88M19.5 12a7.5 7.5 0 01-13.2 4.88M17.7 3.75v3.37h-3.37M6.3 20.25v-3.37h3.37"/>
             </svg>
           </div>
           <div>
-            <div class="font-display font-extrabold text-sm sm:text-base tracking-tight text-white leading-none">STEM TÁI CHẾ NHỰA</div>
+            <div class="font-display font-extrabold text-sm sm:text-base tracking-tight text-white leading-none">STEM AQUAPONICS TÁI CHẾ</div>
             <div class="text-[11px] text-sky-300/90 font-medium mt-0.5">Nhóm 4 • 12A01 • THPT Nam Hà</div>
           </div>
         </a>
 
-        <!-- Desktop Navigation Links -->
         <nav class="hidden md:flex items-center gap-1 lg:gap-2 text-sm font-medium text-slate-200">
-          <a href="#sec-01" class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-emerald-300 transition">01. Tái chế Nhựa</a>
+          <a href="#sec-01" class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-emerald-300 transition">01. Aquaponics & Nhựa</a>
           <a href="#sec-02" class="px-3 py-2 rounded-xl bg-sky-500/20 text-sky-200 border border-sky-400/30 hover:bg-sky-500/30 transition">02. Mô hình 3D 360°</a>
-          <a href="#sec-03" class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-emerald-300 transition">03. Cấu tạo</a>
+          <a href="#sec-03" class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-emerald-300 transition">03. Cấu tạo 2 Bơm</a>
           <a href="#sec-04" class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-emerald-300 transition">04. Quy trình</a>
-          <a href="#sec-05" class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-emerald-300 transition">05. Tuần hoàn &amp; An toàn</a>
+          <a href="#sec-05" class="px-3 py-2 rounded-xl hover:bg-white/10 hover:text-emerald-300 transition">05. Tuần hoàn & IoT</a>
         </nav>
 
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" type="button" class="md:hidden p-2.5 rounded-xl bg-white/5 border border-white/15 text-slate-200 hover:bg-white/10" aria-label="Mở menu">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
+        <button id="mobile-menu-btn" type="button" class="md:hidden p-2.5 rounded-xl bg-white/5 border border-white/15 text-slate-200" aria-label="Mở menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
-
-      <!-- Mobile Dropdown Menu -->
       <div id="mobile-menu" class="hidden md:hidden border-t border-sky-400/20 bg-slate-950/95 px-4 py-3 space-y-1 text-sm">
-        <a href="#sec-01" class="mobile-nav-link block px-3 py-2.5 rounded-xl hover:bg-white/10 text-slate-200">01. Phân tích Tái chế Nhựa</a>
-        <a href="#sec-02" class="mobile-nav-link block px-3 py-2.5 rounded-xl bg-sky-500/20 text-sky-200 font-semibold">02. Phòng trưng bày 3D 360°</a>
-        <a href="#sec-03" class="mobile-nav-link block px-3 py-2.5 rounded-xl hover:bg-white/10 text-slate-200">03. Cấu tạo Vỏ nhựa &amp; Hộp đen</a>
-        <a href="#sec-04" class="mobile-nav-link block px-3 py-2.5 rounded-xl hover:bg-white/10 text-slate-200">04. Quy trình 5 bước tái chế</a>
-        <a href="#sec-05" class="mobile-nav-link block px-3 py-2.5 rounded-xl hover:bg-white/10 text-slate-200">05. Tuần hoàn kép &amp; An toàn</a>
+        <a href="#sec-01" class="mobile-nav-link block px-3 py-2 rounded-xl hover:bg-white/10">01. Aquaponics & Tái chế Nhựa</a>
+        <a href="#sec-02" class="mobile-nav-link block px-3 py-2 rounded-xl bg-sky-500/20 text-sky-200 font-semibold">02. Phòng trưng bày 3D 360°</a>
+        <a href="#sec-03" class="mobile-nav-link block px-3 py-2 rounded-xl hover:bg-white/10">03. Cấu tạo Vỏ nhựa & Phần cứng</a>
+        <a href="#sec-04" class="mobile-nav-link block px-3 py-2 rounded-xl hover:bg-white/10">04. Quy trình 5 bước chế tạo</a>
+        <a href="#sec-05" class="mobile-nav-link block px-3 py-2 rounded-xl hover:bg-white/10">05. Tuần hoàn kép & Kết nối Web</a>
       </div>
     </header>
 
     <!-- HERO SECTION -->
-    <section id="top" class="pt-12 pb-10 sm:pt-16 sm:pb-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section id="top" class="pt-10 pb-10 sm:pt-14 sm:pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div class="glass-card rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden">
-        <!-- Decorative glow orbs -->
         <div class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-sky-500/20 blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 max-w-4xl">
           <div class="flex flex-wrap items-center gap-2 mb-5">
-            <span class="px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase bg-emerald-400/15 text-emerald-300 border border-emerald-400/35">
-              Dự án STEM Hóa Học
-            </span>
-            <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-sky-400/15 text-sky-200 border border-sky-400/30">
-              Trường THPT Nam Hà • Nhóm 4 – Lớp 12A01
-            </span>
-            <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-400/15 text-violet-200 border border-violet-400/30">
-              Năm học 2026 – 2027
-            </span>
+            <span class="px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase bg-emerald-400/15 text-emerald-300 border border-emerald-400/35">Dự án STEM Hóa Học & IoT</span>
+            <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-sky-400/15 text-sky-200 border border-sky-400/30">Trường THPT Nam Hà • Nhóm 4 – 12A01</span>
+            <span class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-400/15 text-violet-200 border border-violet-400/30">Năm học 2026 – 2027</span>
           </div>
 
-          <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-[52px] leading-[1.14] tracking-tight text-white mb-5">
-            SỬ DỤNG NHỰA ĐỂ TÁI CHẾ<br />
-            <span class="text-cosmic-gradient">VƯỜN NHỰA TUẦN HOÀN &amp; THÁC NƯỚC TỰ ĐỘNG</span>
+          <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-[50px] leading-[1.15] tracking-tight text-white mb-5">
+            HỆ SINH THÁI AQUAPONICS TÁI CHẾ<br />
+            <span class="text-cosmic-gradient">HỒ CÁ · THÁC OXY 4 TẦNG · TƯỚI NHỎ GIỌT ESP8266</span>
           </h1>
 
           <p class="text-slate-200/90 text-base sm:text-lg leading-relaxed max-w-3xl mb-8">
-            Biến những chai nhựa PET, bình nhựa 5 lít tưởng chừng bị vứt bỏ thành một <strong class="text-emerald-300">hệ sinh thái xanh thu nhỏ có vòng tuần hoàn nước khép kín</strong>. Dự án kết hợp tư duy Hóa học Xanh – Tái chế nâng cấp (Upcycling) với giải pháp chăm sóc cây tự động chống úng gọn nhẹ trong hộp đen chống thấm.
+            Nâng cấp mô hình tái chế rác thải nhựa thành hệ cộng sinh <strong class="text-emerald-300">Cá – Rau xanh – Lọc rễ hồi lưu khép kín</strong>. Giữ nguyên nền tảng phần cứng <strong class="text-sky-300">2 máy bơm độc lập</strong> (Bơm 1 tưới nhỏ giọt Relay D1 & Bơm 2 thác nước tạo oxy MOSFET PWM D2), bổ sung <strong class="text-amber-300">1 cảm biến nhiệt độ đất DS18B20 (D5)</strong>, <strong class="text-yellow-300">đèn LED Grow Light (D7)</strong> và điều khiển Thủ công toàn quyền trên Web ESP8266.
           </p>
 
           <div class="flex flex-wrap gap-3.5 mb-9">
             <a href="#sec-02" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl font-bold text-slate-950 bg-gradient-to-r from-emerald-400 via-teal-300 to-sky-400 hover:brightness-110 transition shadow-lg shadow-emerald-500/25">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
-              </svg>
-              Khám phá Mô hình 3D Xoay 360°
+              Khám phá Mô hình Aquaponics 3D 360°
             </a>
             <a href="#sec-01" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 transition">
-              Đọc phân tích Tái chế Nhựa
+              Xem phân tích Hóa học & Sinh thái
             </a>
           </div>
 
-          <!-- Highlight Metrics -->
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div class="glass-panel rounded-2xl p-4">
-              <div class="text-2xl sm:text-3xl font-display font-extrabold text-emerald-300">450–1000</div>
-              <div class="text-xs sm:text-sm text-slate-300 mt-1">Năm phân hủy tự nhiên của chai nhựa PET ngoài môi trường</div>
+              <div class="text-2xl sm:text-3xl font-display font-extrabold text-emerald-300">Aquaponics</div>
+              <div class="text-xs sm:text-sm text-slate-300 mt-1">Hồ cá cấp dinh dưỡng cho rau; rễ rau lọc nước hồi lưu sạch về hồ</div>
             </div>
             <div class="glass-panel rounded-2xl p-4">
-              <div class="text-2xl sm:text-3xl font-display font-extrabold text-sky-300">100% Nhựa</div>
-              <div class="text-xs sm:text-sm text-slate-300 mt-1">Tận dụng từ khay đế, hàng rào, bình 5L đến khay thác 2 tầng</div>
+              <div class="text-2xl sm:text-3xl font-display font-extrabold text-sky-300">2 Bơm Độc Lập</div>
+              <div class="text-xs sm:text-sm text-slate-300 mt-1">Bơm 1 tưới nhỏ giọt (D1) & Bơm 2 thác oxy 4 tầng PWM (D2)</div>
             </div>
             <div class="glass-panel rounded-2xl p-4">
-              <div class="text-2xl sm:text-3xl font-display font-extrabold text-violet-300">2 Vòng Nước</div>
-              <div class="text-xs sm:text-sm text-slate-300 mt-1">Thác tuần hoàn khép kín &amp; tưới nhỏ giọt chống úng tự động</div>
+              <div class="text-2xl sm:text-3xl font-display font-extrabold text-amber-300">DS18B20 + LED</div>
+              <div class="text-xs sm:text-sm text-slate-300 mt-1">1 cảm biến nhiệt độ cắm đất (D5) & đèn LED Grow Light PWM (D7)</div>
             </div>
             <div class="glass-panel rounded-2xl p-4">
-              <div class="text-2xl sm:text-3xl font-display font-extrabold text-amber-300">Hộp Đen Kín</div>
-              <div class="text-xs sm:text-sm text-slate-300 mt-1">Bảo vệ toàn bộ mạch điện an toàn, tách riêng pin &amp; cảm biến</div>
+              <div class="text-2xl sm:text-3xl font-display font-extrabold text-violet-300">Toàn Quyền Web</div>
+              <div class="text-xs sm:text-sm text-slate-300 mt-1">Thủ công bật/tắt mọi lúc, biểu đồ CSV & cảnh báo Email/Telegram</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================================================================== -->
-    <!-- SECTION 01: DEEP ANALYSIS ON PLASTIC RECYCLING                        -->
-    <!-- ===================================================================== -->
-    <section id="sec-01" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <!-- SECTION 01 -->
+    <section id="sec-01" class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div class="mb-7">
-        <span class="text-xs font-bold uppercase tracking-widest text-emerald-300">Mục 01 • Trọng tâm Hóa học &amp; Môi trường</span>
-        <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">
-          Phân tích chuyên sâu về Tái chế Nhựa (Upcycling)
-        </h2>
-        <p class="text-slate-300 mt-2 max-w-3xl text-sm sm:text-base">
-          Không dừng lại ở việc "vứt đúng chỗ", mô hình STEM Hóa học của nhóm hướng tới <strong class="text-sky-300">tái chế nâng cấp (Upcycling)</strong> — kéo dài vòng đời vật liệu polymer thành không gian xanh giàu tính thẩm mỹ và giá trị giáo dục.
-        </p>
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-300">Mục 01 • Cơ sở Hóa học Xanh & Cộng sinh Aquaponics</span>
+        <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">Tái chế Nâng cấp Nhựa (Upcycling) kết hợp Chu trình Nitơ</h2>
       </div>
 
-      <!-- 3 Pillars Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
-        <!-- Card 1: Reality -->
-        <div class="glass-card rounded-3xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="w-11 h-11 rounded-2xl bg-rose-500/20 border border-rose-400/35 flex items-center justify-center text-rose-300 mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
-              </svg>
-            </div>
-            <h3 class="font-display font-bold text-xl text-white mb-2.5">1. Thực trạng rác thải nhựa</h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-3">
-              Chai nhựa nước giải khát (nhựa <strong class="text-sky-300">PET – Poly(ethylene terephthalate)</strong>) có liên kết ester rất bền vững trước vi sinh vật tự nhiên. Khi bị thải ra bãi rác hay đại dương, một chiếc chai chỉ dùng 15 phút lại cần tới <strong class="text-rose-300">450 – 1.000 năm</strong> để phân rã.
-            </p>
-            <p class="text-slate-300 text-sm leading-relaxed">
-              Nếu đem đốt không đúng kỹ thuật, rác nhựa còn phát sinh khí nhà kính (<span class="font-semibold text-white">CO₂</span>) và hợp chất độc hại; nếu chôn lấp sẽ làm đất bạc màu, cản trở sự thẩm thấu của nước ngầm.
-            </p>
-          </div>
-          <div class="mt-5 pt-4 border-t border-white/10 text-xs text-rose-200/90 font-medium">
-            Mỗi phút trên thế giới có hơn 1 triệu chai nhựa được tiêu thụ — giải pháp tại nguồn là cấp thiết.
-          </div>
+        <div class="glass-card rounded-3xl p-6">
+          <h3 class="font-display font-bold text-xl text-rose-300 mb-2.5">1. Tái sinh rác nhựa gia dụng</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Chai nhựa PET (#1), nắp nhựa HDPE (#2) và nĩa nhựa dùng một lần mất từ <strong class="text-white">450–1.000 năm</strong> để phân hủy tự nhiên. Mô hình tận dụng 100% vật liệu này làm bể cá trong suốt, 4 tầng chén thác tạo oxy, khay hồi lưu và hàng rào nĩa nhựa bao quanh luống rau — không cần nung chảy tốn nhiệt năng.
+          </p>
         </div>
-
-        <!-- Card 2: Meaning of Upcycling -->
-        <div class="glass-card rounded-3xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="w-11 h-11 rounded-2xl bg-emerald-500/20 border border-emerald-400/35 flex items-center justify-center text-emerald-300 mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
-              </svg>
-            </div>
-            <h3 class="font-display font-bold text-xl text-white mb-2.5">2. Ý nghĩa Sinh thái – Kinh tế – Giáo dục</h3>
-            <ul class="space-y-2.5 text-sm text-slate-300">
-              <li class="flex gap-2.5">
-                <span class="text-emerald-400 font-bold">•</span>
-                <span><strong class="text-white">Sinh thái:</strong> Tái sinh 100% phần vỏ mô hình từ bình nước 5L và vỏ chai PET (cắt làm hàng rào, khay tầng thác, khay đế), giảm trực tiếp lượng nhựa thải ra môi trường.</span>
-              </li>
-              <li class="flex gap-2.5">
-                <span class="text-sky-400 font-bold">•</span>
-                <span><strong class="text-white">Kinh tế:</strong> Chi phí làm khung vườn, bể chứa và hàng rào gần như 0 đồng thay vì mua chậu nhựa/mica mới, mang lại hiệu quả sử dụng cao.</span>
-              </li>
-              <li class="flex gap-2.5">
-                <span class="text-violet-400 font-bold">•</span>
-                <span><strong class="text-white">Giáo dục:</strong> Lan tỏa lối sống xanh <em>3R (Reduce – Reuse – Recycle)</em> và tư duy Kinh tế tuần hoàn ngay trong trường học.</span>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-5 pt-4 border-t border-white/10 text-xs text-emerald-200/90 font-medium">
-            Upcycling không tốn nhiệt năng nấu chảy nhựa — bảo tồn nguyên vẹn cấu trúc trong suốt của PET.
-          </div>
+        <div class="glass-card rounded-3xl p-6">
+          <h3 class="font-display font-bold text-xl text-emerald-300 mb-2.5">2. Chu trình dinh dưỡng Cá – Rau</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Chất thải từ hồ cá (amoniac $\text{NH}_3 / \text{NH}_4^+$) được vi sinh vật nitrat hóa chuyển hóa thành nitrit và nitrat ($\text{NO}_3^-$) — nguồn phân đạm tự nhiên cho rau xanh. Khi nước tưới thấm qua vùng đất và bộ rễ, cây hấp thu dưỡng chất và trả lại dòng nước sạch hồi lưu về hồ cá.
+          </p>
         </div>
-
-        <!-- Card 3: Practical Benefits -->
-        <div class="glass-card rounded-3xl p-6 flex flex-col justify-between">
-          <div>
-            <div class="w-11 h-11 rounded-2xl bg-sky-500/20 border border-sky-400/35 flex items-center justify-center text-sky-300 mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
-              </svg>
-            </div>
-            <h3 class="font-display font-bold text-xl text-white mb-2.5">3. Lợi ích thiết thực</h3>
-            <ul class="space-y-2.5 text-sm text-slate-300">
-              <li class="flex gap-2.5">
-                <span class="text-emerald-400 font-bold">✓</span>
-                <span><strong class="text-white">Giảm rác chôn lấp &amp; giảm CO₂:</strong> Thay thế chậu cảnh sản xuất mới giúp cắt giảm năng lượng khai thác dầu mỏ và phát thải carbon.</span>
-              </li>
-              <li class="flex gap-2.5">
-                <span class="text-emerald-400 font-bold">✓</span>
-                <span><strong class="text-white">Tiết kiệm nước tuần hoàn:</strong> Dòng nước thác chảy tuần hoàn khép kín quay về hồ, tăng oxy hòa tan và điều hòa vi khí hậu quanh cây.</span>
-              </li>
-              <li class="flex gap-2.5">
-                <span class="text-emerald-400 font-bold">✓</span>
-                <span><strong class="text-white">Chăm sóc cây chuẩn xác:</strong> Tận dụng ưu điểm chống thấm và nhẹ của nhựa tái chế kết hợp cảm biến đất giúp cây không bao giờ bị chết úng hay khô héo.</span>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-5 pt-4 border-t border-white/10 text-xs text-sky-200/90 font-medium">
-            Vật liệu nhẹ, bền cơ học, dễ quan sát mực nước trong suốt nhờ đặc tính quang học của nhựa PET.
-          </div>
-        </div>
-      </div>
-
-      <!-- Scientific Debate / Critical Evaluation Box -->
-      <div class="glass-card rounded-3xl p-6 sm:p-8 border-amber-400/30">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-5 pb-4 border-b border-white/10">
-          <div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-400/15 text-amber-300 border border-amber-400/35 mb-2">
-              Phản biện Khoa học Khách quan • Hóa học Polymer
-            </span>
-            <h3 class="font-display font-extrabold text-xl sm:text-2xl text-white">
-              Tái chế nhựa làm vườn cây có gây hại môi trường hay sức khỏe không?
-            </h3>
-          </div>
-          <div class="text-xs sm:text-sm px-4 py-2 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 text-emerald-200 font-semibold shrink-0">
-            Kết luận: AN TOÀN khi dùng đúng chuẩn kỹ thuật
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-300">
-          <div class="glass-panel rounded-2xl p-4.5 p-5">
-            <div class="flex items-center gap-2.5 mb-2">
-              <span class="px-2.5 py-0.5 rounded-lg bg-emerald-400/20 text-emerald-300 font-bold text-xs">PET #1 &amp; HDPE #2</span>
-              <h4 class="font-bold text-white">Độ trơ hóa học ở nhiệt độ thường</h4>
-            </div>
-            <p class="leading-relaxed">
-              Vỏ chai nước suối (<strong>PET #1</strong>) và nắp chai/bình dày (<strong>HDPE #2</strong>) có cấu trúc mạch polymer ổn định ở điều kiện nhiệt độ phòng (20–35°C). Khi sử dụng làm <strong>tiểu cảnh cây cảnh, hoa trang trí và thác nước tuần hoàn trong nhà/ban công râm mát</strong>, nhựa không tan trong nước và không phát sinh độc chất gây hại cho cây hay người quan sát.
-            </p>
-          </div>
-
-          <div class="glass-panel rounded-2xl p-4.5 p-5">
-            <div class="flex items-center gap-2.5 mb-2">
-              <span class="px-2.5 py-0.5 rounded-lg bg-amber-400/20 text-amber-300 font-bold text-xs">Khuyến cáo nhiệt &amp; UV</span>
-              <h4 class="font-bold text-white">Không dùng cho thực phẩm nóng / nắng gắt</h4>
-            </div>
-            <p class="leading-relaxed">
-              Nhựa PET #1 được thiết kế cho nước lạnh; dưới tác động kéo dài của <strong>nhiệt độ cao (&gt; 60°C) hoặc tia cực tím (UV) gay gắt</strong> nhiều năm, mạch polymer có thể bị quang phân, giòn hóa và rò rỉ lượng vết phụ gia (như chất xúc tác antimony). Vì vậy, nhóm khuyến nghị đặt mô hình ở nơi ánh sáng dịu, <strong>tuyệt đối không dùng đựng thực phẩm nóng</strong> và ưu tiên trồng cây cảnh/cây trưng bày.
-            </p>
-          </div>
-
-          <div class="glass-panel rounded-2xl p-4.5 p-5">
-            <div class="flex items-center gap-2.5 mb-2">
-              <span class="px-2.5 py-0.5 rounded-lg bg-sky-400/20 text-sky-300 font-bold text-xs">Kiểm soát vi nhựa</span>
-              <h4 class="font-bold text-white">Xử lý sạch vụn nhựa khi cắt tạo hình</h4>
-            </div>
-            <p class="leading-relaxed">
-              Nguy cơ phát tán <strong>vi nhựa (microplastics)</strong> chủ yếu xảy ra trong quá trình cắt hàng rào hoặc khoan lỗ trên chai nhựa. Nhóm áp dụng quy tắc: cắt bằng kéo sắc thay vì cưa tạo bụi mịn, trải giấy báo hứng toàn bộ dăm nhựa thừa, dùng giấy nhám mịn bo tròn mép sắc và rửa sạch khay trước khi trồng cây để không để vụn nhựa lọt vào đất hay nguồn nước.
-            </p>
-          </div>
-
-          <div class="glass-panel rounded-2xl p-4.5 p-5">
-            <div class="flex items-center gap-2.5 mb-2">
-              <span class="px-2.5 py-0.5 rounded-lg bg-violet-400/20 text-violet-300 font-bold text-xs">Vòng đời cuối</span>
-              <h4 class="font-bold text-white">Thu gom tái chế công nghiệp đúng nơi</h4>
-            </div>
-            <p class="leading-relaxed">
-              Tái chế thủ công giúp kéo dài tuổi thọ chai nhựa thêm nhiều năm, nhưng không biến nhựa thành chất phân hủy sinh học. Khi mô hình kết thúc vòng đời sử dụng (sau 2–3 năm nhựa bắt đầu ố mờ), các chi tiết PET/HDPE sẽ được <strong>tháo rời khỏi linh kiện điện tử, rửa sạch và gửi đến điểm thu gom tái chế nhựa chuyên nghiệp</strong> để khép kín hoàn toàn vòng tuần hoàn vật liệu.
-            </p>
-          </div>
+        <div class="glass-card rounded-3xl p-6">
+          <h3 class="font-display font-bold text-xl text-sky-300 mb-2.5">3. An toàn vật liệu & Vi nhựa</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Nhựa PET/HDPE bền trơ ở nhiệt độ thường (20–35°C) khi đặt nơi thoáng mát, tránh nắng gắt kéo dài. Toàn bộ vết cắt được bo mịn và rửa sạch trước khi thả cá, trồng rau; khi kết thúc vòng đời trưng bày sẽ phân tách mạch điện tử để tái sử dụng và gửi vỏ nhựa về điểm tái chế.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- ===================================================================== -->
-    <!-- SECTION 02 (CORE): 3D 360° INTERACTIVE GALLERY & LIVE SIMULATION      -->
-    <!-- ===================================================================== -->
-    <section id="sec-02" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <!-- SECTION 02 (CORE): 3D 360° AQUAPONICS MODEL & LIVE CONTROL -->
+    <section id="sec-02" class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div class="mb-6 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
         <div>
-          <span class="text-xs font-bold uppercase tracking-widest text-sky-300">Mục 02 • Trải nghiệm Tương tác Trọng tâm</span>
-          <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">
-            Phòng trưng bày 3D Xoay 360° &amp; Mô phỏng Hoạt động
-          </h2>
+          <span class="text-xs font-bold uppercase tracking-widest text-sky-300">Mục 02 • Phòng trưng bày 3D 360° & Giả lập ESP8266</span>
+          <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">Mô hình Aquaponics 3D Tương tác Trực tiếp</h2>
           <p class="text-slate-300 mt-2 max-w-3xl text-sm sm:text-base">
-            Kéo chuột (hoặc vuốt tay) để xoay mô hình 360°, phóng to soi từng thanh hàng rào cắt từ chai nhựa, mở nắp <strong class="text-amber-300">Hộp đen chống nước</strong> để xem bo mạch bên trong và tương tác trực tiếp với hệ thống thác nước &amp; cảm biến độ ẩm!
+            Xoay 360° quan sát hồ cá bơi lội, thác nước 4 tầng tạo oxy, hàng rào nĩa nhựa, dòng lọc hồi lưu qua rễ rau, cảm biến nhiệt đất DS18B20, đèn LED Grow Light và mở nắp <strong class="text-amber-300">Hộp đen chống nước</strong>!
           </p>
         </div>
 
-        <!-- Quick Camera Controls -->
         <div class="flex flex-wrap items-center gap-2">
-          <button id="btn-toggle-lid" type="button" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-400/20 text-amber-200 border border-amber-400/45 hover:bg-amber-400/30 transition flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
-            </svg>
+          <button id="btn-toggle-lid" type="button" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-amber-400/20 text-amber-200 border border-amber-400/45 hover:bg-amber-400/30 transition">
             <span id="lid-btn-label">Mở nắp Hộp đen</span>
           </button>
           <button id="btn-autorotate" type="button" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition">
@@ -477,2124 +235,842 @@
         </div>
       </div>
 
-      <!-- Main 3D + Control Dashboard Grid -->
       <div class="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
-
-        <!-- LEFT: 3D Viewport + Inspector Bar (8 cols on XL) -->
+        <!-- LEFT: 3D Viewport + Inspector + Live Chart (8 cols) -->
         <div class="xl:col-span-8 flex flex-col gap-4">
-          <div class="glass-card rounded-3xl p-2.5 sm:p-3 relative overflow-hidden">
-            <!-- 3D Canvas Container -->
-            <div id="viewer-3d" class="relative w-full h-[380px] sm:h-[490px] lg:h-[540px] rounded-2xl overflow-hidden border border-sky-400/20">
-              <!-- Live Telemetry Overlay Top-Left -->
+          <div id="viewport-frame" class="glass-card rounded-3xl p-2.5 sm:p-3 relative overflow-hidden">
+            <div id="viewer-3d" class="relative w-full h-[390px] sm:h-[500px] lg:h-[540px] rounded-2xl overflow-hidden border border-sky-400/20">
+              <!-- Live Telemetry HUD -->
               <div class="absolute top-3 left-3 z-20 flex flex-wrap gap-2 pointer-events-none">
-                <div class="px-3 py-1.5 rounded-xl bg-slate-950/75 backdrop-blur-md border border-sky-400/30 text-xs flex items-center gap-2">
+                <div class="px-3 py-1.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-emerald-400/30 text-xs flex items-center gap-1.5">
                   <span id="hud-moist-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  <span class="text-slate-300">Độ ẩm:</span>
-                  <strong id="hud-moist-val" class="text-white">48%</strong>
-                  <span class="text-slate-400 text-[11px]" id="hud-a0-val">(A0: 668)</span>
+                  <span class="text-slate-300">Ẩm đất:</span><strong id="hud-moist-val" class="text-white">46%</strong>
                 </div>
-                <div class="px-3 py-1.5 rounded-xl bg-slate-950/75 backdrop-blur-md border border-emerald-400/30 text-xs flex items-center gap-1.5">
-                  <span class="text-slate-300">Bơm 1:</span>
-                  <strong id="hud-p1-val" class="text-slate-400">TẮT</strong>
+                <div class="px-3 py-1.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-amber-400/35 text-xs flex items-center gap-1.5">
+                  <span class="text-slate-300">Nhiệt đất (D5):</span><strong id="hud-temp-val" class="text-amber-300">28.5°C</strong>
                 </div>
-                <div class="px-3 py-1.5 rounded-xl bg-slate-950/75 backdrop-blur-md border border-cyan-400/30 text-xs flex items-center gap-1.5">
-                  <span class="text-slate-300">Thác (Bơm 2):</span>
-                  <strong id="hud-p2-val" class="text-sky-300">CHẠY 75%</strong>
+                <div class="px-3 py-1.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-emerald-400/30 text-xs flex items-center gap-1.5">
+                  <span class="text-slate-300">B1:</span><strong id="hud-p1-val" class="text-slate-400">TẮT</strong>
+                </div>
+                <div class="px-3 py-1.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-cyan-400/30 text-xs flex items-center gap-1.5">
+                  <span class="text-slate-300">B2 Thác:</span><strong id="hud-p2-val" class="text-sky-300">75%</strong>
+                </div>
+                <div class="px-3 py-1.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-yellow-400/30 text-xs flex items-center gap-1.5">
+                  <span class="text-slate-300">LED:</span><strong id="hud-led-val" class="text-yellow-300">70%</strong>
                 </div>
               </div>
 
-              <!-- Zoom Controls Top-Right -->
+              <!-- Zoom Controls -->
               <div class="absolute top-3 right-3 z-20 flex flex-col gap-1.5">
-                <button id="btn-zoom-in" type="button" class="w-9 h-9 rounded-xl bg-slate-950/80 border border-white/20 text-white font-bold hover:bg-sky-500/30 transition flex items-center justify-center" title="Phóng to">+</button>
-                <button id="btn-zoom-out" type="button" class="w-9 h-9 rounded-xl bg-slate-950/80 border border-white/20 text-white font-bold hover:bg-sky-500/30 transition flex items-center justify-center" title="Thu nhỏ">−</button>
+                <button id="btn-zoom-in" type="button" class="w-9 h-9 rounded-xl bg-slate-950/80 border border-white/20 text-white font-bold hover:bg-sky-500/30 transition">+</button>
+                <button id="btn-zoom-out" type="button" class="w-9 h-9 rounded-xl bg-slate-950/80 border border-white/20 text-white font-bold hover:bg-sky-500/30 transition">−</button>
               </div>
 
-              <!-- Drag Hint Bottom-Left -->
-              <div class="absolute bottom-3 left-3 z-20 px-3 py-1.5 rounded-xl bg-slate-950/70 backdrop-blur-md border border-white/15 text-[11px] sm:text-xs text-slate-300 pointer-events-none">
-                Kéo chuột / vuốt tay để xoay 360° • Cuộn hoặc bấm +/− để zoom
+              <!-- Alert Banner -->
+              <div id="hud-alert-badge" class="hidden absolute bottom-3 right-3 z-20 px-3 py-1.5 rounded-xl bg-rose-600/85 backdrop-blur-md border border-rose-300 text-xs font-bold text-white alert-blink">
+                CẢNH BÁO ĐỎ: Đã gửi Email tới nguyenthetai0309@gmail.com
               </div>
 
-              <!-- Power Sharing Banner Bottom-Right (shown when active) -->
-              <div id="hud-share-badge" class="hidden absolute bottom-3 right-3 z-20 px-3 py-1.5 rounded-xl bg-amber-500/25 backdrop-blur-md border border-amber-400/50 text-xs font-semibold text-amber-200 pointer-events-none">
-                ⚡ Đang nhường nguồn pin cho Bơm 1 tưới cây
-              </div>
-
-              <!-- Fallback if WebGL fails -->
-              <div id="webgl-fallback" class="hidden absolute inset-0 flex items-center justify-center p-6 text-center bg-slate-950/90 z-30">
-                <div>
-                  <p class="text-lg font-bold text-rose-300 mb-2">Trình duyệt chưa hỗ trợ WebGL 3D</p>
-                  <p class="text-sm text-slate-300">Vui lòng mở bằng Chrome, Edge hoặc Safari phiên bản mới để xoay mô hình 3D 360°.</p>
-                </div>
+              <div class="absolute bottom-3 left-3 z-20 px-3 py-1.5 rounded-xl bg-slate-950/70 backdrop-blur-md border border-white/15 text-[11px] text-slate-300 pointer-events-none">
+                Kéo chuột / vuốt để xoay 360° • Cuộn hoặc bấm +/− để zoom
               </div>
             </div>
           </div>
 
-          <!-- Part Spotlight Selector & Detailed Inspector Card -->
+          <!-- Part Focus Inspector -->
           <div class="glass-card rounded-3xl p-5">
-            <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
-              <h3 class="font-display font-bold text-base sm:text-lg text-white flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
-                Soi cận cảnh từng bộ phận (Camera tự di chuyển)
-              </h3>
-              <span class="text-xs text-slate-400">Chọn một mục để xem chi tiết vật liệu &amp; chức năng</span>
+            <h3 class="font-display font-bold text-base text-white mb-3">Soi cận cảnh từng cụm cấu trúc Aquaponics</h3>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <button data-part="overview" class="part-btn px-3 py-2 rounded-xl text-xs font-bold bg-sky-500/35 text-white border border-sky-400/70">Toàn cảnh 360°</button>
+              <button data-part="fishpond" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10">Hồ cá & Thác 4 tầng</button>
+              <button data-part="veggies" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10">Luống rau & Hàng rào nĩa nhựa</button>
+              <button data-part="drip" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10">Ống tưới nhỏ giọt & 2 Bơm</button>
+              <button data-part="sensors" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10">Cảm biến Ẩm (A0) & DS18B20 (D5)</button>
+              <button data-part="led" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-yellow-500/15 text-yellow-200 border border-yellow-400/35 hover:bg-yellow-500/25">Đèn LED Grow Light (D7)</button>
+              <button data-part="blackbox" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-amber-500/15 text-amber-200 border border-amber-400/35 hover:bg-amber-500/25">Hộp đen mạch ESP8266</button>
             </div>
-
-            <!-- Focus Buttons -->
-            <div id="part-buttons" class="flex flex-wrap gap-2 mb-4">
-              <button data-part="overview" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-sky-500/30 text-white border border-sky-400/60 transition">Toàn cảnh 360°</button>
-              <button data-part="fence" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10 transition">Hàng rào cắt từ chai nhựa</button>
-              <button data-part="waterfall" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10 transition">Thác nước &amp; Bình 5L nắp xanh</button>
-              <button data-part="garden" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10 transition">Khay đế, Vườn cây &amp; Hồ nước</button>
-              <button data-part="blackbox" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-amber-500/15 text-amber-200 border border-amber-400/35 hover:bg-amber-500/25 transition">Hộp đen chống nước (Mở xem mạch)</button>
-              <button data-part="battery" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10 transition">Hộp pin 3×AA (Bên ngoài)</button>
-              <button data-part="sensor" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10 transition">Cảm biến độ ẩm 2 que</button>
-              <button data-part="pumps" class="part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10 transition">Bơm 1 &amp; Bơm 2 chìm trong hồ</button>
-            </div>
-
-            <!-- Selected Part Description Box -->
             <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-emerald-400">
-              <div class="flex flex-wrap items-center gap-2 mb-1.5">
-                <span id="part-tag" class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase bg-emerald-400/20 text-emerald-300">Tổng thể mô hình</span>
-                <h4 id="part-title" class="font-display font-bold text-base text-white">Vườn Nhựa Tái Chế Tuần Hoàn &amp; Thác Nước Tự Động</h4>
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <span id="part-tag" class="px-2 py-0.5 rounded-md text-[11px] font-bold uppercase bg-emerald-400/20 text-emerald-300">Tổng thể Aquaponics</span>
+                <h4 id="part-title" class="font-display font-bold text-base text-white">Hệ sinh thái Hồ cá – Thác tạo oxy – Luống rau lọc hồi lưu</h4>
               </div>
               <p id="part-desc" class="text-sm text-slate-300 leading-relaxed">
-                Mô hình kết hợp khay đế tái chế trong suốt, hàng rào cắt thủ công từ thân chai nhựa PET, hồ nước tuần hoàn 2 tầng thác từ bình 5L nắp xanh cùng vườn cây xanh. Toàn bộ bo mạch điều khiển được bảo vệ trong Hộp đen có nắp đậy kín, chỉ tách riêng 2 bơm chìm trong hồ, cảm biến độ ẩm cắm đất và hộp pin 3×AA đặt ngoài.
+                Khay đế chung hứng nước hồi lưu chia 2 khu vực: nửa trái là hồ cá sinh thái cùng thác nước 4 tầng tái chế tạo oxy hòa tan; nửa phải là luống rau xanh quây hàng rào nĩa nhựa, tưới nhỏ giọt bằng nước hồ cá và lọc sạch qua tầng rễ quay lại hồ.
               </p>
             </div>
           </div>
+
+          <!-- Real-Time Dual Parameter Chart + CSV Export -->
+          <div class="glass-card rounded-3xl p-5">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div>
+                <h3 class="font-display font-bold text-base text-white">Biểu đồ đa thông số thời gian thực (Mô phỏng Web ESP8266)</h3>
+                <p class="text-xs text-slate-400"><span class="text-emerald-300 font-semibold">Xanh ngọc:</span> Độ ẩm đất (%) · <span class="text-amber-300 font-semibold">Cam:</span> Nhiệt độ đất DS18B20 (°C)</p>
+              </div>
+              <button id="btn-export-csv" type="button" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500/25 text-emerald-200 border border-emerald-400/45 hover:bg-emerald-500/35 transition">
+                ⬇ Tải file CSV thực nghiệm
+              </button>
+            </div>
+            <canvas id="sim-chart" width="760" height="170" class="w-full h-[170px] rounded-xl bg-slate-950/75 border border-white/10"></canvas>
+          </div>
         </div>
 
-        <!-- RIGHT: Interactive Live Simulation Control Panel (4 cols on XL) -->
+        <!-- RIGHT: Simulation Controls (4 cols) -->
         <div class="xl:col-span-4 flex flex-col gap-4">
 
-          <!-- Panel A: Waterfall Simulation (Pump 2 - MOSFET PWM) -->
+          <!-- Control Mode & Pump 1 -->
           <div class="glass-card rounded-3xl p-5">
             <div class="flex items-center justify-between mb-3">
               <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-sky-300">Kênh Bơm 2 • MOSFET XY-MOS (D2)</span>
-                <h3 class="font-display font-bold text-lg text-white">Mô phỏng Thác nước tuần hoàn</h3>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-300">Bơm 1 (Tưới nhỏ giọt • Relay D1)</span>
+                <h3 class="font-display font-bold text-lg text-white">Điều khiển Toàn quyền</h3>
               </div>
-              <span id="sim-wf-badge" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-500/25 text-sky-200 border border-sky-400/40">LIÊN TỤC</span>
+              <span id="sim-mode-badge" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/25 text-amber-200 border border-amber-400/40">THỦ CÔNG</span>
             </div>
 
-            <!-- 3 Waterfall Mode Buttons -->
-            <div class="grid grid-cols-3 gap-2 mb-4">
-              <button data-wfmode="0" class="wf-mode-btn py-2.5 px-2 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 hover:bg-white/10 transition">Tắt thác</button>
-              <button data-wfmode="1" class="wf-mode-btn py-2.5 px-2 rounded-xl text-xs font-bold bg-sky-500/30 text-white border border-sky-400/60 transition">Liên tục</button>
-              <button data-wfmode="2" class="wf-mode-btn py-2.5 px-2 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 hover:bg-white/10 transition">Tuần hoàn</button>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+              <button id="btn-mode-manual" type="button" class="py-2.5 rounded-xl text-xs font-bold bg-amber-500/30 text-white border border-amber-400/60 transition">THỦ CÔNG (Toàn quyền)</button>
+              <button id="btn-mode-auto" type="button" class="py-2.5 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 hover:bg-white/10 transition">TỰ ĐỘNG Thông minh</button>
             </div>
 
-            <!-- PWM Speed Slider -->
+            <div class="grid grid-cols-2 gap-2 mb-4">
+              <button id="btn-p1-on" type="button" class="py-2.5 rounded-xl text-xs font-bold bg-emerald-500/25 text-emerald-200 border border-emerald-400/50 hover:bg-emerald-500/40 transition">BẬT BƠM 1 NGAY</button>
+              <button id="btn-p1-off" type="button" class="py-2.5 rounded-xl text-xs font-bold bg-rose-500/25 text-rose-200 border border-rose-400/50 hover:bg-rose-500/40 transition">TẮT BƠM 1</button>
+              <button id="btn-demo-3s" type="button" class="col-span-2 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-teal-400 to-emerald-400 text-slate-950 hover:brightness-110 transition">💧 Tưới thử 3 giây (Demo thuyết trình)</button>
+            </div>
+
+            <!-- Moisture & Soil Temp Sliders -->
+            <div class="space-y-3 mb-3">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">Độ ẩm đất (A0)</span>
+                  <strong id="moist-lbl" class="text-emerald-300">46%</strong>
+                </div>
+                <input id="moist-slider" type="range" min="0" max="100" value="46" class="cosmic-slider" />
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-300">Nhiệt độ đất DS18B20 (D5)</span>
+                  <strong id="temp-lbl" class="text-amber-300">28.5°C</strong>
+                </div>
+                <input id="temp-slider" type="range" min="18" max="42" step="0.5" value="28.5" class="cosmic-slider" />
+                <div class="text-[11px] text-slate-400 mt-0.5">≥ 31°C: Tăng oxy thác (Auto) · ≥ 35°C: Cảnh báo nóng đất</div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-2xl bg-slate-950/75 border border-white/10 text-xs text-sky-200 leading-relaxed" id="sim-status-text">
+              Chế độ THỦ CÔNG: Bạn có thể bật/tắt Bơm 1, Bơm 2 và Đèn LED bất kỳ lúc nào.
+            </div>
+          </div>
+
+          <!-- Pump 2 Waterfall & Eco / Night Mode -->
+          <div class="glass-card rounded-3xl p-5">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-sky-300">Bơm 2 (Thác tạo oxy 4 tầng • MOSFET D2)</span>
+            <h3 class="font-display font-bold text-lg text-white mb-3">Điều tốc Thác & Sinh thái</h3>
+
+            <div class="grid grid-cols-3 gap-2 mb-3">
+              <button data-wf="0" class="wf-btn py-2 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15">Tắt</button>
+              <button data-wf="1" class="wf-btn py-2 rounded-xl text-xs font-bold bg-sky-500/35 text-white border border-sky-400/70">Liên tục</button>
+              <button data-wf="2" class="wf-btn py-2 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15">Tuần hoàn</button>
+            </div>
+
             <div class="mb-3">
-              <div class="flex justify-between text-xs mb-1.5">
-                <span class="text-slate-300 font-medium">Tốc độ dòng chảy PWM (MOSFET)</span>
-                <strong id="pwm-val-text" class="text-sky-300 font-bold">75%</strong>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">Công suất PWM cài đặt</span>
+                <strong id="pwm-lbl" class="text-sky-300">75%</strong>
               </div>
               <input id="pwm-slider" type="range" min="30" max="100" value="75" class="cosmic-slider" />
-              <div class="flex justify-between text-[11px] text-slate-400 mt-1">
-                <span>30% (Êm nhẹ)</span>
-                <span>75% (Tối ưu)</span>
-                <span>100% (Mạnh)</span>
-              </div>
             </div>
 
-            <div id="wf-cycle-info" class="hidden text-xs px-3 py-2 rounded-xl bg-sky-500/15 border border-sky-400/30 text-sky-200 mb-3">
-              Chu kỳ tiết kiệm pin (mô phỏng nhanh 6s chảy / 4s nghỉ — thực tế 20s / 10s).
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-white/10 cursor-pointer">
+                <span>Chế độ Sinh thái (Tăng oxy khi nóng)</span>
+                <input id="chk-eco" type="checkbox" checked class="w-4 h-4 accent-emerald-400" />
+              </label>
+              <label class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-white/10 cursor-pointer">
+                <span>Chế độ Ban đêm êm ái (Giảm còn 40%)</span>
+                <input id="chk-night" type="checkbox" class="w-4 h-4 accent-sky-400" />
+              </label>
+              <label class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-white/10 cursor-pointer">
+                <span>Nhường nguồn pin 3×AA khi Bơm 1 tưới</span>
+                <input id="chk-share" type="checkbox" checked class="w-4 h-4 accent-amber-400" />
+              </label>
             </div>
-
-            <!-- Smart Power Sharing Toggle -->
-            <label class="flex items-center justify-between gap-3 p-3 rounded-2xl bg-slate-900/60 border border-white/10 cursor-pointer">
-              <div>
-                <div class="text-xs font-bold text-white">Tự động nhường nguồn pin 3×AA</div>
-                <div class="text-[11px] text-slate-400">Tạm ngưng thác khi Bơm 1 đang tưới để tránh sụt áp</div>
-              </div>
-              <input id="chk-power-share" type="checkbox" checked class="w-4 h-4 accent-emerald-400 rounded shrink-0" />
-            </label>
           </div>
 
-          <!-- Panel B: Soil Moisture & Auto Watering Simulation (Pump 1 - Relay D1) -->
+          <!-- LED Grow Light & Alert Test -->
           <div class="glass-card rounded-3xl p-5">
-            <div class="flex items-center justify-between mb-3">
-              <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-300">Kênh Bơm 1 • Relay 5V (D1) &amp; A0</span>
-                <h3 class="font-display font-bold text-lg text-white">Mô phỏng Tưới chống úng</h3>
-              </div>
-              <span id="sim-p1-badge" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">TỰ ĐỘNG</span>
-            </div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-yellow-300">Đèn LED Grow Light (D7) & Cảnh báo</span>
+            <h3 class="font-display font-bold text-lg text-white mb-3">Chiếu sáng & Cảnh báo Đa kênh</h3>
 
-            <!-- Auto / Manual Mode Switch -->
-            <div class="grid grid-cols-2 gap-2 mb-4">
-              <button id="btn-mode-auto" type="button" class="py-2.5 rounded-xl text-xs font-bold bg-emerald-500/30 text-white border border-emerald-400/60 transition">Chế độ TỰ ĐỘNG</button>
-              <button id="btn-mode-manual" type="button" class="py-2.5 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 hover:bg-white/10 transition">Chế độ THỦ CÔNG</button>
-            </div>
-
-            <!-- Moisture Slider -->
             <div class="mb-3">
-              <div class="flex justify-between items-center text-xs mb-1.5">
-                <span class="text-slate-300 font-medium">Độ ẩm đất hiện tại (Kéo thử ≤ 35%)</span>
-                <span id="moist-status-pill" class="px-2 py-0.5 rounded-md font-bold bg-emerald-500/20 text-emerald-300">48% • Ổn định</span>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-slate-300">Độ sáng đèn LED Grow Light PWM</span>
+                <strong id="led-lbl" class="text-yellow-300">70%</strong>
               </div>
-              <input id="moist-slider" type="range" min="0" max="100" value="48" class="cosmic-slider" />
-              <div class="flex justify-between text-[11px] mt-1">
-                <span class="text-amber-300 font-medium">≤ 35%: Tự bật Bơm 1</span>
-                <span class="text-emerald-300 font-medium">≥ 55%: Tự ngắt chống úng</span>
-              </div>
+              <input id="led-slider" type="range" min="0" max="100" value="70" class="cosmic-slider" />
             </div>
 
-            <!-- Manual & Demo Action Buttons -->
-            <div class="grid grid-cols-2 gap-2 mb-3">
-              <button id="btn-demo-3s" type="button" class="col-span-2 py-2.5 px-3 rounded-xl text-xs font-bold bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 hover:brightness-110 transition shadow-md shadow-emerald-500/20">
-                💧 Tưới thử 3 giây (Demo thuyết trình)
+            <div class="grid grid-cols-2 gap-2">
+              <button id="btn-sim-water" type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold bg-rose-500/20 text-rose-200 border border-rose-400/45 hover:bg-rose-500/35 transition">
+                ⚠ Mô phỏng hết nước
               </button>
-              <button id="btn-manual-p1-on" type="button" disabled class="py-2 px-3 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-emerald-500/25 transition">
-                Bật Bơm 1 tay
-              </button>
-              <button id="btn-manual-p1-off" type="button" disabled class="py-2 px-3 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-rose-500/25 transition">
-                Tắt Bơm 1 tay
+              <button id="btn-test-mail" type="button" class="py-2.5 px-2 rounded-xl text-xs font-bold bg-sky-500/20 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition">
+                ✉ Test gửi Email
               </button>
             </div>
-
-            <!-- Live Event Log / Status Text -->
-            <div class="p-3 rounded-2xl bg-slate-950/75 border border-white/10 text-xs text-slate-200 leading-relaxed">
-              <div class="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">Trạng thái mô phỏng trực tiếp</div>
-              <div id="sim-status-text" class="text-emerald-300 font-medium">
-                Đất ở mức 48% (ổn định). Hãy kéo thanh trượt độ ẩm xuống ≤ 35% để xem Bơm 1 tự động phun nước 3D và ngắt khi đạt 55%!
-              </div>
-            </div>
+            <p class="text-[11px] text-slate-400 mt-2">Email nhận cảnh báo: <strong class="text-slate-200">nguyenthetai0309@gmail.com</strong> (chống spam 15 phút).</p>
           </div>
-
         </div>
       </div>
     </section>
 
-    <!-- ===================================================================== -->
-    <!-- SECTION 03: DETAILED 2-GROUP STRUCTURE TABLE                          -->
-    <!-- ===================================================================== -->
-    <section id="sec-03" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <!-- SECTION 03: STRUCTURE -->
+    <section id="sec-03" class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div class="mb-7">
-        <span class="text-xs font-bold uppercase tracking-widest text-emerald-300">Mục 03 • Cấu tạo Hệ thống</span>
-        <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">
-          Phân tích chi tiết 2 Nhóm Cấu tạo Mô hình
-        </h2>
-        <p class="text-slate-300 mt-2 max-w-3xl text-sm sm:text-base">
-          Tách biệt rõ giữa <strong class="text-emerald-300">phần vỏ sinh thái 100% tái chế từ nhựa</strong> và <strong class="text-sky-300">khối điều khiển gọn gàng chống thấm nước</strong> giúp mô hình an toàn, thẩm mỹ và dễ bảo trì.
-        </p>
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-300">Mục 03 • Cấu trúc Phần cứng & Tái chế</span>
+        <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">Giữ nguyên 2 Bơm độc lập + Nâng cấp Cảm biến & LED</h2>
       </div>
-
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Group A: Recycled Plastic Materials -->
         <div class="glass-card rounded-3xl p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 font-extrabold">A</div>
-            <div>
-              <h3 class="font-display font-bold text-lg sm:text-xl text-white">Nhóm 1: Vật liệu Tái chế từ Chai Nhựa</h3>
-              <p class="text-xs text-emerald-300/90">Tận dụng phế liệu nhựa PET #1 &amp; HDPE #2 gia dụng</p>
-            </div>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm border-collapse">
-              <thead>
-                <tr class="border-b border-white/15 text-xs uppercase tracking-wider text-sky-300">
-                  <th class="py-2.5 pr-3">Bộ phận</th>
-                  <th class="py-2.5 pr-3">Nguồn nhựa</th>
-                  <th class="py-2.5">Công dụng trong mô hình</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-white/10 text-slate-200">
-                <tr>
-                  <td class="py-3 pr-3 font-semibold text-white">Bình chứa thác (Nắp xanh)</td>
-                  <td class="py-3 pr-3 text-emerald-300 text-xs font-semibold">Bình 5L PET + nắp HDPE</td>
-                  <td class="py-3 text-slate-300">Đặt trên giá đỡ cao, khoét lỗ đáy làm bể điều hòa nước đổ xuống thác.</td>
-                </tr>
-                <tr>
-                  <td class="py-3 pr-3 font-semibold text-white">Hàng rào đầu nhọn</td>
-                  <td class="py-3 pr-3 text-emerald-300 text-xs font-semibold">Thân chai PET trong</td>
-                  <td class="py-3 text-slate-300">Cắt thành từng thanh đầu nhọn y hệt hàng rào trắng (thay thế hoàn toàn que kem gỗ), bền và không mục ẩm.</td>
-                </tr>
-                <tr>
-                  <td class="py-3 pr-3 font-semibold text-white">2 tầng khay thác nước</td>
-                  <td class="py-3 pr-3 text-emerald-300 text-xs font-semibold">Đáy chai nhựa cắt ngang</td>
-                  <td class="py-3 text-slate-300">Xếp bậc thang kết hợp đá sỏi tạo hiệu ứng dòng thác 2 tầng chảy êm xuống hồ.</td>
-                </tr>
-                <tr>
-                  <td class="py-3 pr-3 font-semibold text-white">Khay đế vườn &amp; Hồ nước</td>
-                  <td class="py-3 pr-3 text-emerald-300 text-xs font-semibold">Bình nhựa lớn cắt đáy</td>
-                  <td class="py-3 text-slate-300">Chống thấm nước tuyệt đối, ngăn thành vùng trồng cây xanh và hồ nước tuần hoàn.</td>
-                </tr>
-                <tr>
-                  <td class="py-3 pr-3 font-semibold text-white">Giá thể &amp; Tiểu cảnh</td>
-                  <td class="py-3 pr-3 text-sky-300 text-xs font-semibold">Đất, sỏi, cây xanh</td>
-                  <td class="py-3 text-slate-300">Tạo hệ sinh thái nhỏ (rau xanh, hoa, cây cảnh mini) giúp giữ ẩm và lọc bụi tự nhiên.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <h3 class="font-display font-bold text-xl text-emerald-300 mb-4">Nhóm 1: Khung Aquaponics Tái chế từ Nhựa</h3>
+          <ul class="space-y-2.5 text-sm text-slate-300">
+            <li><strong class="text-white">• Hồ cá trong suốt (Nửa trái):</strong> Nuôi cá cảnh nhỏ, đáy rải sỏi và cây thủy sinh cung cấp nguồn dinh dưỡng tự nhiên.</li>
+            <li><strong class="text-white">• Thác tạo oxy 4 tầng nắp nhựa:</strong> 4 nắp/chén nhựa tròn xếp bậc thang gắn trên ống nhựa trong giúp khuấy trộn dòng chảy bổ sung oxy hòa tan.</li>
+            <li><strong class="text-white">• Hàng rào nĩa nhựa tái chế (Nửa phải):</strong> Các chiếc nĩa nhựa xếp đều bao quanh luống rau xà lách, tạo vách giữ đất thoáng khí, không mục ẩm.</li>
+            <li><strong class="text-white">• Khay đế hồi lưu chung:</strong> Nước sau khi tưới thấm qua rễ cây được lọc sạch cặn bẩn và chảy ngược về hồ cá khép kín.</li>
+          </ul>
         </div>
-
-        <!-- Group B: Waterproof Black Box & External Components -->
         <div class="glass-card rounded-3xl p-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 rounded-2xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 font-extrabold">B</div>
-            <div>
-              <h3 class="font-display font-bold text-lg sm:text-xl text-white">Nhóm 2: Hộp Đen Chống Nước &amp; Bộ Phận Ngoài</h3>
-              <p class="text-xs text-sky-300/90">Bố trí thực tế giúp bảo vệ mạch tuyệt đối khỏi nước</p>
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <!-- Inside Black Box -->
-            <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-amber-400">
-              <div class="text-xs font-bold uppercase tracking-wider text-amber-300 mb-2">
-                1. Đặt gọn bên trong Hộp Đen có nắp đậy kín
-              </div>
-              <ul class="space-y-2 text-sm text-slate-300">
-                <li><strong class="text-white">• NodeMCU ESP8266:</strong> Bộ não trung tâm đọc độ ẩm chân <code class="text-sky-300">A0</code>, điều khiển 2 bơm và phát trang Web Wi-Fi nội bộ.</li>
-                <li><strong class="text-white">• Module Relay 5V (1 kênh):</strong> Nối chân <code class="text-sky-300">D1</code>, đóng/ngắt <strong>Bơm 1</strong> qua tiếp điểm Thường đóng (<code class="text-emerald-300">NC</code>) với logic đảo an toàn.</li>
-                <li><strong class="text-white">• Module MOSFET XY-MOS (D4184):</strong> Nối chân <code class="text-sky-300">D2</code>, nhận xung <code class="text-sky-300">PWM</code> điều chỉnh tốc độ chảy êm mượt cho <strong>Bơm 2</strong>.</li>
-              </ul>
-            </div>
-
-            <!-- Outside Black Box -->
-            <div class="glass-panel rounded-2xl p-4 border-l-4 border-l-sky-400">
-              <div class="text-xs font-bold uppercase tracking-wider text-sky-300 mb-2">
-                2. Các bộ phận đặt bên ngoài Hộp Đen
-              </div>
-              <ul class="space-y-2 text-sm text-slate-300">
-                <li><strong class="text-white">• Hộp pin 3 viên AA (4,5V):</strong> Do kích thước lớn nên đặt ngay cạnh hộp đen, cấp nguồn song song vào Relay &amp; MOSFET (nối chung <code class="text-sky-300">GND</code>).</li>
-                <li><strong class="text-white">• Bơm 1 &amp; Bơm 2 chìm mini DC:</strong> Đặt ngập trong hồ nước — Bơm 1 dẫn ống silicon tưới gốc cây, Bơm 2 đẩy nước lên bình thác 5L.</li>
-                <li><strong class="text-white">• Cảm biến độ ẩm đất 2 que:</strong> Cắm trực tiếp vào đất trồng cây (cấp nguồn <code class="text-emerald-300">3V3</code>, truyền tín hiệu <code class="text-sky-300">AO → A0</code> vào hộp đen).</li>
-                <li><strong class="text-white">• Cấp nguồn USB 5V (Sạc dự phòng):</strong> Nuôi riêng ESP8266 ổn định suốt quá trình trình diễn mà không bị sụt áp Wi-Fi.</li>
-              </ul>
-            </div>
-          </div>
+          <h3 class="font-display font-bold text-xl text-sky-300 mb-4">Nhóm 2: Hộp đen Chống nước & Mạch 2 Bơm</h3>
+          <ul class="space-y-2.5 text-sm text-slate-300">
+            <li><strong class="text-white">• Trong Hộp đen có nắp kín:</strong> NodeMCU ESP8266, Module Relay 5V (`D1` tiếp điểm `NC` cho Bơm 1) và Module MOSFET XY-MOS (`D2` PWM 1 kHz cho Bơm 2).</li>
+            <li><strong class="text-white">• Đặt chìm trong hồ cá:</strong> 2 máy bơm mini DC độc lập — Bơm 1 dẫn ống tưới nhỏ giọt sang luống rau, Bơm 2 đẩy nước lên đỉnh thác 4 tầng.</li>
+            <li><strong class="text-white">• Cắm vào đất trồng rau:</strong> Cảm biến độ ẩm đất 2 que (`A0`) và <strong class="text-amber-300">1 cảm biến nhiệt độ DS18B20 (`D5`)</strong> kèm điện trở kéo lên 4,7kΩ.</li>
+            <li><strong class="text-white">• Chiếu sáng & Nguồn ngoài:</strong> Đèn LED Grow Light (`D7` PWM qua điện trở hạn dòng), hộp pin 3×AA (4,5V) đặt ngoài và nguồn USB 5V nuôi riêng ESP8266.</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- ===================================================================== -->
-    <!-- SECTION 04: 5-STEP RECYCLING & ASSEMBLY WORKFLOW                      -->
-    <!-- ===================================================================== -->
-    <section id="sec-04" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <!-- SECTION 04: 5 STEPS -->
+    <section id="sec-04" class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div class="mb-7">
         <span class="text-xs font-bold uppercase tracking-widest text-sky-300">Mục 04 • Thực hành Chế tạo</span>
-        <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">
-          Quy trình 5 Bước Tái chế Chai Nhựa &amp; Lắp ráp Mô hình
-        </h2>
+        <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">Quy trình 5 Bước Thi công & Tích hợp IoT</h2>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <!-- Step 1 -->
-        <div class="glass-card rounded-3xl p-5 flex flex-col">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-950 font-display font-extrabold flex items-center justify-center mb-4">01</div>
-          <h3 class="font-display font-bold text-base text-white mb-2">Thu gom &amp; Phân loại nhựa</h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Thu thập bình nhựa 5L và vỏ chai nước giải khát (kiểm tra ký hiệu <strong>PET #1 / HDPE #2</strong>), bóc nhãn keo, rửa sạch bằng nước ấm nhẹ và phơi khô hoàn toàn.
-          </p>
-        </div>
-
-        <!-- Step 2 -->
-        <div class="glass-card rounded-3xl p-5 flex flex-col">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-500 text-slate-950 font-display font-extrabold flex items-center justify-center mb-4">02</div>
-          <h3 class="font-display font-bold text-base text-white mb-2">Cắt khay đế &amp; Hàng rào nhựa</h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Cắt phần thân chai PET thành các thanh hàng rào đầu nhọn xếp viền ngoài khay đế; cắt 2 đáy chai trong suốt làm khay tầng thác. Thu gom sạch 100% dăm nhựa thừa và bo mịn mép cắt.
-          </p>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="glass-card rounded-3xl p-5 flex flex-col">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-400 to-sky-500 text-slate-950 font-display font-extrabold flex items-center justify-center mb-4">03</div>
-          <h3 class="font-display font-bold text-base text-white mb-2">Dựng thác 5L &amp; Tiểu cảnh</h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Cố định giá đỡ bình 5L, khoét cửa tràn ở đáy bình và châm <strong>1 lỗ thông khí nhỏ</strong> trên vai bình để tránh hút chân không. Xếp 2 tầng khay, đá sỏi, đất trồng và cây xanh.
-          </p>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="glass-card rounded-3xl p-5 flex flex-col">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 font-display font-extrabold flex items-center justify-center mb-4">04</div>
-          <h3 class="font-display font-bold text-base text-white mb-2">Đóng gói vào Hộp đen kín</h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Lắp ESP8266, Relay 5V và MOSFET XY-MOS gọn vào <strong>Hộp đen có nắp đậy chống nước</strong>. Đặt hộp pin 3×AA bên ngoài, cắm cảm biến 2 que xuống đất và thả 2 bơm chìm trong hồ.
-          </p>
-        </div>
-
-        <!-- Step 5 -->
-        <div class="glass-card rounded-3xl p-5 flex flex-col">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-400 to-purple-500 text-slate-950 font-display font-extrabold flex items-center justify-center mb-4">05</div>
-          <h3 class="font-display font-bold text-base text-white mb-2">Hiệu chuẩn &amp; Chạy thử</h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Kết nối Wi-Fi <code class="text-sky-300">STEM Hóa</code>, ghi 2 mốc <em>Khô / Ướt vừa đủ</em> trên web để chống úng, chỉnh thanh trượt PWM thác nước khoảng 70–80% cho dòng chảy êm ái không bắn nước.
-          </p>
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div class="glass-card rounded-3xl p-5"><div class="text-emerald-300 font-display font-extrabold text-xl mb-2">01</div><h3 class="font-bold text-white mb-1.5">Phân loại & Vệ sinh nhựa</h3><p class="text-xs text-slate-300">Rửa sạch hộp nhựa, nắp chén, nĩa nhựa tái chế; bo nhẵn mép cắt tránh phát tán vi nhựa ra môi trường.</p></div>
+        <div class="glass-card rounded-3xl p-5"><div class="text-sky-300 font-display font-extrabold text-xl mb-2">02</div><h3 class="font-bold text-white mb-1.5">Dựng Hồ cá & Thác 4 tầng</h3><p class="text-xs text-slate-300">Gắn 4 bậc nắp nhựa so le quanh trụ ống dẫn nước trên hồ cá, đặt sỏi lọc và cây thủy sinh.</p></div>
+        <div class="glass-card rounded-3xl p-5"><div class="text-teal-300 font-display font-extrabold text-xl mb-2">03</div><h3 class="font-bold text-white mb-1.5">Xếp hàng rào nĩa & Luống rau</h3><p class="text-xs text-slate-300">Quây nĩa nhựa quanh khay trồng rau có khe thoát đáy hồi lưu về hồ; đi ống chia nhánh tưới nhỏ giọt.</p></div>
+        <div class="glass-card rounded-3xl p-5"><div class="text-amber-300 font-display font-extrabold text-xl mb-2">04</div><h3 class="font-bold text-white mb-1.5">Đấu mạch & Đóng Hộp đen</h3><p class="text-xs text-slate-300">Giữ nguyên mạch 2 bơm cũ, cắm thêm 1 DS18B20 (`D5`) vào đất và đèn LED (`D7`); đặt gọn mạch vào hộp đen kín.</p></div>
+        <div class="glass-card rounded-3xl p-5"><div class="text-violet-300 font-display font-extrabold text-xl mb-2">05</div><h3 class="font-bold text-white mb-1.5">Hiệu chuẩn & Xuất CSV</h3><p class="text-xs text-slate-300">Kết nối Wi-Fi `STEM Hóa`, lưu mốc Khô/Ướt, kiểm thử Thủ công toàn quyền và tải dữ liệu thực nghiệm CSV.</p></div>
       </div>
     </section>
 
-    <!-- ===================================================================== -->
-    <!-- SECTION 05: DUAL WATER LOOP, WI-FI INFO & ECO PLEDGE                  -->
-    <!-- ===================================================================== -->
-    <section id="sec-05" class="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div class="mb-7">
-        <span class="text-xs font-bold uppercase tracking-widest text-emerald-300">Mục 05 • Vận hành &amp; Cam kết Bền vững</span>
-        <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white mt-1.5">
-          Nguyên lý Tuần hoàn Nước Kép &amp; An toàn Môi trường
-        </h2>
-      </div>
-
-      <!-- Dual Water Loop Visual Cards -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <!-- Loop 1 -->
-        <div class="glass-card rounded-3xl p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-display font-bold text-xl text-sky-300">Vòng 1: Thác nước Tuần hoàn Khép kín</h3>
-            <span class="px-3 py-1 rounded-full text-xs font-bold bg-sky-500/20 text-sky-200 border border-sky-400/35">Bơm 2 • PWM D2</span>
-          </div>
-          <!-- Flow steps -->
-          <div class="flex flex-wrap items-center gap-2 text-xs font-semibold mb-4">
-            <span class="px-3 py-2 rounded-xl bg-sky-500/20 border border-sky-400/35 text-white">Hồ chứa</span>
-            <span class="text-sky-400">→</span>
-            <span class="px-3 py-2 rounded-xl bg-sky-500/20 border border-sky-400/35 text-white">Bơm 2 (MOSFET PWM)</span>
-            <span class="text-sky-400">→</span>
-            <span class="px-3 py-2 rounded-xl bg-sky-500/20 border border-sky-400/35 text-white">Bình 5L nắp xanh</span>
-            <span class="text-sky-400">→</span>
-            <span class="px-3 py-2 rounded-xl bg-sky-500/20 border border-sky-400/35 text-white">Khay tầng 1 &amp; 2</span>
-            <span class="text-sky-400">→</span>
-            <span class="px-3 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-200">Hồi về Hồ</span>
-          </div>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            Nước được bơm tuần hoàn liên tục hoặc theo chu kỳ tiết kiệm pin (20s chạy – 10s nghỉ), tạo dòng chảy sinh động qua 2 tầng khay tái chế mà <strong class="text-white">không làm hao hụt hay tràn nước</strong>. Tốc độ dòng chảy điều chỉnh mượt mà bằng xung PWM (30–100%).
-          </p>
-        </div>
-
-        <!-- Loop 2 -->
-        <div class="glass-card rounded-3xl p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-display font-bold text-xl text-emerald-300">Vòng 2: Tưới cây Tự động Chống úng</h3>
-            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/35">Bơm 1 • Relay D1</span>
-          </div>
-          <!-- Flow steps -->
-          <div class="flex flex-wrap items-center gap-2 text-xs font-semibold mb-4">
-            <span class="px-3 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/35 text-white">Cảm biến đất (A0)</span>
-            <span class="text-emerald-400">→</span>
-            <span class="px-3 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/35 text-white">ESP8266 (Đo 0,2s)</span>
-            <span class="text-emerald-400">→</span>
-            <span class="px-3 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/35 text-white">Relay 5V (NC)</span>
-            <span class="text-emerald-400">→</span>
-            <span class="px-3 py-2 rounded-xl bg-emerald-500/20 border border-emerald-400/35 text-white">Bơm 1 tưới gốc</span>
-            <span class="text-emerald-400">→</span>
-            <span class="px-3 py-2 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-200">Đạt 55% tự ngắt</span>
-          </div>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            Hoạt động độc lập với thác nước. Khi đất khô (≤ 35%), Bơm 1 tự bật tưới nhỏ giọt (đồng thời thác nước tự nhường nguồn pin) và <strong class="text-white">ngắt tức thì trong 0,2 giây</strong> ngay khi đất vừa đủ ẩm (≥ 55%), kết hợp khóa an toàn quá 8 giây chống úng rễ tuyệt đối.
-          </p>
-        </div>
-      </div>
-
-      <!-- Wi-Fi Local Access + Environmental Pledge -->
+    <!-- SECTION 05: WI-FI & SAFETY -->
+    <section id="sec-05" class="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Wi-Fi Access Card -->
-        <div class="lg:col-span-5 glass-card rounded-3xl p-6 flex flex-col justify-between">
-          <div>
-            <span class="text-xs font-bold uppercase tracking-wider text-sky-300">Điều khiển trực tiếp không cần Internet</span>
-            <h3 class="font-display font-bold text-xl text-white mt-1 mb-4">Thông tin Kết nối Web Wi-Fi</h3>
-            <div class="space-y-3 text-sm">
-              <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-950/70 border border-white/10">
-                <span class="text-slate-400">Tên Wi-Fi (SSID)</span>
-                <div class="flex items-center gap-2">
-                  <strong class="text-white font-mono">STEM Hóa</strong>
-                  <button type="button" onclick="copyText('STEM Hóa')" class="px-2 py-1 rounded-lg text-[11px] bg-sky-500/20 text-sky-200 hover:bg-sky-500/35 transition">Chép</button>
-                </div>
-              </div>
-              <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-950/70 border border-white/10">
-                <span class="text-slate-400">Mật khẩu</span>
-                <div class="flex items-center gap-2">
-                  <strong class="text-white font-mono">123456789</strong>
-                  <button type="button" onclick="copyText('123456789')" class="px-2 py-1 rounded-lg text-[11px] bg-sky-500/20 text-sky-200 hover:bg-sky-500/35 transition">Chép</button>
-                </div>
-              </div>
-              <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-950/70 border border-white/10">
-                <span class="text-slate-400">Địa chỉ Web nội bộ</span>
-                <div class="flex items-center gap-2">
-                  <strong class="text-emerald-300 font-mono">http://192.168.4.1</strong>
-                  <button type="button" onclick="copyText('http://192.168.4.1')" class="px-2 py-1 rounded-lg text-[11px] bg-emerald-500/20 text-emerald-200 hover:bg-emerald-500/35 transition">Chép</button>
-                </div>
-              </div>
+        <div class="lg:col-span-5 glass-card rounded-3xl p-6">
+          <span class="text-xs font-bold uppercase tracking-wider text-sky-300">Truy cập Trực tiếp ESP8266</span>
+          <h3 class="font-display font-bold text-xl text-white mt-1 mb-4">Thông tin Kết nối & Cảnh báo</h3>
+          <div class="space-y-2.5 text-sm">
+            <div class="flex justify-between items-center p-3 rounded-2xl bg-slate-950/70 border border-white/10">
+              <span class="text-slate-400">Wi-Fi (SSID)</span>
+              <div class="flex items-center gap-2"><strong class="font-mono text-white">STEM Hóa</strong><button type="button" onclick="copyText('STEM Hóa')" class="px-2 py-1 rounded-lg text-[11px] bg-sky-500/20 text-sky-200">Chép</button></div>
+            </div>
+            <div class="flex justify-between items-center p-3 rounded-2xl bg-slate-950/70 border border-white/10">
+              <span class="text-slate-400">Mật khẩu</span>
+              <div class="flex items-center gap-2"><strong class="font-mono text-white">123456789</strong><button type="button" onclick="copyText('123456789')" class="px-2 py-1 rounded-lg text-[11px] bg-sky-500/20 text-sky-200">Chép</button></div>
+            </div>
+            <div class="flex justify-between items-center p-3 rounded-2xl bg-slate-950/70 border border-white/10">
+              <span class="text-slate-400">Địa chỉ Web</span>
+              <div class="flex items-center gap-2"><strong class="font-mono text-emerald-300">http://192.168.4.1</strong><button type="button" onclick="copyText('http://192.168.4.1')" class="px-2 py-1 rounded-lg text-[11px] bg-emerald-500/20 text-emerald-200">Chép</button></div>
+            </div>
+            <div class="flex justify-between items-center p-3 rounded-2xl bg-slate-950/70 border border-white/10">
+              <span class="text-slate-400">Email cảnh báo</span>
+              <strong class="font-mono text-xs text-amber-200">nguyenthetai0309@gmail.com</strong>
             </div>
           </div>
-          <p class="text-xs text-slate-400 mt-4">
-            Toàn bộ cấu hình độ ẩm mục tiêu và tốc độ PWM được lưu bền vững trong bộ nhớ EEPROM ngay cả khi tắt điện thoại.
-          </p>
         </div>
 
-        <!-- Environmental & Safety Pledge -->
         <div class="lg:col-span-7 glass-card rounded-3xl p-6 border-emerald-400/30">
-          <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">Trách nhiệm Xanh của Nhóm 4 – 12A01</span>
-          <h3 class="font-display font-bold text-xl text-white mt-1 mb-4">Cam kết An toàn Điện &amp; Bảo vệ Môi trường</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-sm text-slate-300">
-            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-white/10">
-              <div class="font-bold text-emerald-300 mb-1">1. Không phát tán vi nhựa</div>
-              <p class="text-xs leading-relaxed">Thu gom toàn bộ mẩu nhựa vụn khi cắt hàng rào, khay thác; bo nhẵn mép sắc và không để vật liệu nhựa lão hóa ngoài nắng gắt.</p>
-            </div>
-            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-white/10">
-              <div class="font-bold text-sky-300 mb-1">2. An toàn điện áp thấp DC</div>
-              <p class="text-xs leading-relaxed">Chỉ sử dụng điện áp siêu thấp 4,5V – 5V DC, tuyệt đối không đưa điện lưới 220V vào mô hình; mạch đặt kín trong hộp đen cao hơn mặt nước.</p>
-            </div>
-            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-white/10">
-              <div class="font-bold text-amber-300 mb-1">3. Bảo vệ pin &amp; đầu dò</div>
-              <p class="text-xs leading-relaxed">Tháo pin AA sau buổi thuyết trình để tránh chảy pin gây ô nhiễm kim loại nặng; lau khô que cảm biến đất để hạn chế ăn mòn điện hóa.</p>
-            </div>
-            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-white/10">
-              <div class="font-bold text-violet-300 mb-1">4. Tái chế khép kín cuối vòng đời</div>
-              <p class="text-xs leading-relaxed">Khi kết thúc trưng bày, phân tách pin thải, linh kiện điện tử (tái sử dụng cho dự án sau) và gửi phần vỏ nhựa PET/HDPE đến điểm tái chế.</p>
-            </div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-300">An toàn Điện & Môi trường</span>
+          <h3 class="font-display font-bold text-xl text-white mt-1 mb-4">Cam kết Kỹ thuật của Nhóm 4 – 12A01</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300 leading-relaxed">
+            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-white/10"><strong class="text-emerald-300 block mb-1">1. Điện áp siêu thấp DC</strong>Chỉ sử dụng 4,5V–5V DC an toàn tuyệt đối cho học sinh và sinh vật thủy sinh; không dùng điện lưới 220V.</div>
+            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-white/10"><strong class="text-sky-300 block mb-1">2. Hộp đen chống nước kín</strong>Toàn bộ bo mạch đặt trong hộp đen cao hơn mặt nước hồ, tách biệt khu vực ẩm ướt.</div>
+            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-white/10"><strong class="text-amber-300 block mb-1">3. Bảo vệ cá & rễ rau</strong>Tự động tăng oxy thác khi nóng, ngắt tưới tránh sốc nhiệt đất và kiểm soát chống úng rễ chính xác.</div>
+            <div class="p-3.5 rounded-2xl bg-slate-950/60 border border-white/10"><strong class="text-violet-300 block mb-1">4. Thu hồi tái chế cuối vòng đời</strong>Tháo pin AA sau trưng bày, tái sử dụng linh kiện điện tử và thu gom nhựa PET/HDPE đúng nơi quy định.</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="mt-8 border-t border-sky-400/20 bg-slate-950/75 backdrop-blur-md">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+      <div class="max-w-7xl mx-auto px-4 py-7 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
         <div>
-          <div class="font-display font-bold text-white">Dự án STEM Hóa Học: Sử dụng Nhựa để Tái chế</div>
-          <div class="text-xs text-slate-400 mt-1">Trường THPT Nam Hà • Nhóm 4 – Lớp 12A01 • Năm học 2026 – 2027</div>
+          <div class="font-display font-bold text-white">Dự án STEM Hóa Học: Hệ sinh thái Aquaponics Tái chế Nhựa</div>
+          <div class="text-xs text-slate-400 mt-0.5">Trường THPT Nam Hà • Nhóm 4 – Lớp 12A01 • Năm học 2026 – 2027</div>
         </div>
-        <div class="text-xs text-sky-300/90 font-medium">
-          Mô hình Vườn Nhựa Tuần Hoàn &amp; Thác Nước 3D Tương tác
-        </div>
+        <div class="text-xs text-sky-300 font-medium">ESP8266 · 2 Bơm Độc Lập · DS18B20 Đất · LED Grow Light · 3D 360°</div>
       </div>
     </footer>
+  </div>
 
-  </div><!-- End Content Layer -->
-
-  <!-- ======================================================================= -->
-  <!-- JAVASCRIPT: SPIRAL GALAXY CANVAS + THREE.JS 360° 3D SIMULATION          -->
-  <!-- ======================================================================= -->
   <script>
-    // -------------------------------------------------------------------------
-    // 1. UI UTILITIES (Toast & Safe Clipboard Copy)
-    // -------------------------------------------------------------------------
+    // 1. TOAST & CLIPBOARD
     let toastTimer = null;
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const msgEl = document.getElementById('toast-msg');
-      if (!toast || !msgEl) return;
-      msgEl.textContent = message;
-      toast.classList.remove('toast-exit');
-      toast.classList.add('toast-enter');
-      if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.remove('toast-enter');
-        toast.classList.add('toast-exit');
-      }, 2600);
+    function showToast(msg) {
+      const t = document.getElementById('toast'), m = document.getElementById('toast-msg');
+      if (!t || !m) return;
+      m.textContent = msg;
+      t.classList.remove('toast-exit'); t.classList.add('toast-enter');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { t.classList.remove('toast-enter'); t.classList.add('toast-exit'); }, 2600);
+    }
+    function copyText(txt) {
+      const i = document.createElement('textarea');
+      i.value = txt; i.style.position = 'fixed'; i.style.opacity = '0';
+      document.body.appendChild(i); i.select(); document.execCommand('copy'); document.body.removeChild(i);
+      showToast('Đã sao chép: ' + txt);
+    }
+    const mb = document.getElementById('mobile-menu-btn'), mm = document.getElementById('mobile-menu');
+    if (mb && mm) {
+      mb.addEventListener('click', () => mm.classList.toggle('hidden'));
+      document.querySelectorAll('.mobile-nav-link').forEach(a => a.addEventListener('click', () => mm.classList.add('hidden')));
     }
 
-    function copyText(text) {
-      try {
-        const tempInput = document.createElement('textarea');
-        tempInput.value = text;
-        tempInput.style.position = 'fixed';
-        tempInput.style.opacity = '0';
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-        showToast('Đã sao chép: ' + text);
-      } catch (err) {
-        showToast('Không thể sao chép tự động, vui lòng chép thủ công.');
-      }
-    }
-
-    // Mobile Menu Toggle
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileBtn && mobileMenu) {
-      mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-      document.querySelectorAll('.mobile-nav-link').forEach((link) => {
-        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-      });
-    }
-
-    // -------------------------------------------------------------------------
-    // 2. ANIMATED SPIRAL GALAXY BACKGROUND CANVAS
-    // -------------------------------------------------------------------------
+    // 2. SPIRAL GALAXY BACKGROUND
     function initGalaxyBackground() {
       const canvas = document.getElementById('galaxy-bg');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas && canvas.getContext('2d');
       if (!ctx) return;
-
-      let width = 0, height = 0;
-      let dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-      // Background twinkling starfield
-      const bgStars = [];
-      for (let i = 0; i < 280; i++) {
-        bgStars.push({
-          x: Math.random(),
-          y: Math.random(),
-          r: Math.random() * 1.4 + 0.3,
-          baseAlpha: Math.random() * 0.65 + 0.25,
-          phase: Math.random() * Math.PI * 2,
-          speed: Math.random() * 0.025 + 0.008,
-          color: Math.random() > 0.7 ? '#bae6fd' : (Math.random() > 0.5 ? '#ddd6fe' : '#ffffff')
-        });
-      }
-
-      // Logarithmic spiral galaxy particles (4 luminous arms: blue, cyan, violet, pink-white core)
-      const armCount = 4;
-      const galaxyStars = [];
-      const totalGalaxyStars = 1500;
-      for (let i = 0; i < totalGalaxyStars; i++) {
-        const arm = i % armCount;
-        // Bias more particles toward inner/middle galaxy
-        const distNorm = Math.pow(Math.random(), 1.35);
-        const radius = 0.02 + distNorm * 0.98;
-        const spiralTwist = distNorm * 5.6;
-        const armAngle = (arm / armCount) * Math.PI * 2;
-        const scatter = (Math.random() - 0.5) * (0.35 + distNorm * 0.85);
-        const angle = armAngle + spiralTwist + scatter;
-
-        // Color transitions from bright white-pink core -> cyan -> royal blue -> violet outer edge
-        let color;
-        if (distNorm < 0.14) {
-          color = Math.random() > 0.4 ? '#fff5fb' : '#f5d0fe';
-        } else if (distNorm < 0.38) {
-          color = Math.random() > 0.45 ? '#7dd3fc' : '#c084fc';
-        } else if (distNorm < 0.72) {
-          color = Math.random() > 0.4 ? '#38bdf8' : '#3b82f6';
-        } else {
-          color = Math.random() > 0.45 ? '#6366f1' : '#1d4ed8';
-        }
-
-        galaxyStars.push({
-          r: radius,
-          angle: angle,
-          size: (1 - distNorm * 0.55) * (Math.random() * 2.2 + 0.7),
-          alpha: (1 - distNorm * 0.65) * (Math.random() * 0.7 + 0.3),
-          color: color,
-          twinklePhase: Math.random() * Math.PI * 2
-        });
-      }
-
-      // Nebula clouds along the spiral arms for rich glowing depth
-      const nebulae = [];
-      for (let i = 0; i < 65; i++) {
-        const arm = i % armCount;
-        const distNorm = 0.12 + Math.random() * 0.72;
-        const angle = (arm / armCount) * Math.PI * 2 + distNorm * 5.4 + (Math.random() - 0.5) * 0.35;
-        nebulae.push({
-          r: distNorm,
-          angle: angle,
-          size: 0.08 + Math.random() * 0.14,
-          color: distNorm < 0.35 ? 'rgba(192, 132, 252, 0.085)' :
-                 (distNorm < 0.6 ? 'rgba(56, 189, 248, 0.075)' : 'rgba(37, 99, 235, 0.07)')
-        });
-      }
-
-      function resizeGalaxy() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = Math.floor(width * dpr);
-        canvas.height = Math.floor(height * dpr);
+      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const bgStars = Array.from({ length: 240 }, () => ({
+        x: Math.random(), y: Math.random(), r: Math.random() * 1.4 + 0.3,
+        a: Math.random() * 0.6 + 0.25, p: Math.random() * 6.28,
+        c: Math.random() > 0.65 ? '#bae6fd' : '#ffffff'
+      }));
+      const galaxyStars = Array.from({ length: 1300 }, (_, i) => {
+        const d = Math.pow(Math.random(), 1.35);
+        const angle = ((i % 4) / 4) * 6.283 + d * 5.6 + (Math.random() - 0.5) * (0.35 + d * 0.8);
+        const c = d < 0.16 ? '#fff5fb' : (d < 0.4 ? '#7dd3fc' : (d < 0.72 ? '#38bdf8' : '#6366f1'));
+        return { r: 0.02 + d * 0.98, angle, size: (1 - d * 0.55) * (Math.random() * 2 + 0.7), a: (1 - d * 0.65) * 0.85, c, p: Math.random() * 6.28 };
+      });
+      function resize() {
+        w = window.innerWidth; h = window.innerHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       }
-
-      resizeGalaxy();
-      window.addEventListener('resize', resizeGalaxy);
-
-      let rotation = 0;
-      let tick = 0;
-
-      function renderGalaxy() {
-        requestAnimationFrame(renderGalaxy);
-        rotation += 0.00055;
-        tick += 0.02;
-
-        // Deep cosmic space background
-        const bgGrad = ctx.createRadialGradient(
-          width * 0.52, height * 0.48, 10,
-          width * 0.52, height * 0.48, Math.max(width, height) * 0.85
-        );
-        bgGrad.addColorStop(0, '#0a1230');
-        bgGrad.addColorStop(0.45, '#04081a');
-        bgGrad.addColorStop(1, '#01030b');
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, width, height);
-
-        // Distant twinkling stars
-        for (let i = 0; i < bgStars.length; i++) {
-          const s = bgStars[i];
-          const a = s.baseAlpha * (0.65 + 0.35 * Math.sin(tick * 2 + s.phase));
-          ctx.globalAlpha = a;
-          ctx.fillStyle = s.color;
-          ctx.beginPath();
-          ctx.arc(s.x * width, s.y * height, s.r, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        ctx.globalAlpha = 1;
-
-        // Tilted Spiral Galaxy Transform (matches the angled spiral galaxy perspective)
-        const cx = width * 0.52;
-        const cy = height * 0.50;
-        const maxRadius = Math.min(width, height) * 0.68;
-        const tiltY = 0.44;
-        const galaxyTiltAngle = -0.18;
-
+      resize(); window.addEventListener('resize', resize);
+      let rot = 0, tick = 0;
+      (function loop() {
+        requestAnimationFrame(loop);
+        rot += 0.0005; tick += 0.02;
+        const g = ctx.createRadialGradient(w * 0.52, h * 0.48, 10, w * 0.52, h * 0.48, Math.max(w, h) * 0.85);
+        g.addColorStop(0, '#0a1230'); g.addColorStop(0.5, '#04081a'); g.addColorStop(1, '#01030b');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+        bgStars.forEach(s => {
+          ctx.globalAlpha = s.a * (0.65 + 0.35 * Math.sin(tick * 2 + s.p));
+          ctx.fillStyle = s.c; ctx.beginPath(); ctx.arc(s.x * w, s.y * h, s.r, 0, 6.283); ctx.fill();
+        });
         ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(galaxyTiltAngle);
-        ctx.scale(1, tiltY);
+        ctx.translate(w * 0.52, h * 0.5); ctx.rotate(-0.18); ctx.scale(1, 0.44);
         ctx.globalCompositeOperation = 'lighter';
-
-        // Soft glowing nebula clouds along arms
-        for (let i = 0; i < nebulae.length; i++) {
-          const n = nebulae[i];
-          const a = n.angle + rotation;
-          const x = Math.cos(a) * n.r * maxRadius;
-          const y = Math.sin(a) * n.r * maxRadius;
-          const nr = n.size * maxRadius;
-          const ng = ctx.createRadialGradient(x, y, 0, x, y, nr);
-          ng.addColorStop(0, n.color);
-          ng.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.fillStyle = ng;
-          ctx.beginPath();
-          ctx.arc(x, y, nr, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        // Luminous galactic core (white -> pink -> violet -> blue halo)
-        const coreGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, maxRadius * 0.42);
-        coreGrad.addColorStop(0, 'rgba(255, 250, 255, 0.92)');
-        coreGrad.addColorStop(0.14, 'rgba(244, 180, 255, 0.55)');
-        coreGrad.addColorStop(0.35, 'rgba(99, 102, 241, 0.28)');
-        coreGrad.addColorStop(0.65, 'rgba(56, 189, 248, 0.12)');
-        coreGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = coreGrad;
-        ctx.beginPath();
-        ctx.arc(0, 0, maxRadius * 0.42, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Spiral arm stars
-        for (let i = 0; i < galaxyStars.length; i++) {
-          const st = galaxyStars[i];
-          const a = st.angle + rotation;
-          const x = Math.cos(a) * st.r * maxRadius;
-          const y = Math.sin(a) * st.r * maxRadius;
-          const twinkle = 0.72 + 0.28 * Math.sin(tick * 2.5 + st.twinklePhase);
-          ctx.globalAlpha = st.alpha * twinkle;
-          ctx.fillStyle = st.color;
-          ctx.beginPath();
-          ctx.arc(x, y, st.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        ctx.restore();
-        ctx.globalAlpha = 1;
-      }
-
-      renderGalaxy();
+        const maxR = Math.min(w, h) * 0.68;
+        const core = ctx.createRadialGradient(0, 0, 0, 0, 0, maxR * 0.42);
+        core.addColorStop(0, 'rgba(255,250,255,0.85)'); core.addColorStop(0.2, 'rgba(192,132,252,0.42)');
+        core.addColorStop(0.55, 'rgba(56,189,248,0.14)'); core.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = core; ctx.beginPath(); ctx.arc(0, 0, maxR * 0.42, 0, 6.283); ctx.fill();
+        galaxyStars.forEach(s => {
+          const a = s.angle + rot;
+          ctx.globalAlpha = s.a * (0.72 + 0.28 * Math.sin(tick * 2.4 + s.p));
+          ctx.fillStyle = s.c; ctx.beginPath(); ctx.arc(Math.cos(a) * s.r * maxR, Math.sin(a) * s.r * maxR, s.size, 0, 6.283); ctx.fill();
+        });
+        ctx.restore(); ctx.globalAlpha = 1;
+      })();
     }
 
-    // -------------------------------------------------------------------------
-    // 3. THREE.JS 360° 3D MODEL & LIVE SIMULATION
-    // -------------------------------------------------------------------------
+    // 3. THREE.JS 360° AQUAPONICS MODEL
     const PART_INFO = {
-      overview: {
-        tag: 'Tổng thể mô hình',
-        title: 'Vườn Nhựa Tái Chế Tuần Hoàn & Thác Nước Tự Động',
-        desc: 'Mô hình kết hợp khay đế tái chế trong suốt, hàng rào cắt thủ công từ thân chai nhựa PET, hồ nước tuần hoàn 2 tầng thác từ bình 5L nắp xanh cùng vườn cây xanh. Toàn bộ bo mạch điều khiển được bảo vệ trong Hộp đen có nắp đậy kín, chỉ tách riêng 2 bơm chìm trong hồ, cảm biến độ ẩm cắm đất và hộp pin 3×AA đặt ngoài.',
-        cam: { theta: 0.62, phi: 1.06, radius: 11.4, target: [0.1, 1.35, 0.1] },
-        openLid: null
-      },
-      fence: {
-        tag: 'Vật liệu tái chế • PET #1',
-        title: 'Hàng rào đầu nhọn cắt hoàn toàn từ thân chai nhựa',
-        desc: 'Thay vì dùng que kem gỗ dễ ẩm mốc, nhóm đã tận dụng vỏ chai nhựa PET trong suốt, cắt thành các thanh đều nhau có đầu nhọn và xếp vòng quanh mép ngoài khay đế. Hàng rào vừa chịu nước tuyệt đối, phản sáng đẹp mắt, vừa truyền tải rõ thông điệp tái chế nhựa.',
-        cam: { theta: 0.25, phi: 1.18, radius: 7.4, target: [-1.4, 0.9, 2.8] },
-        openLid: false
-      },
-      waterfall: {
-        tag: 'Vật liệu tái chế • Tuần hoàn nước',
-        title: 'Bình nhựa 5L nắp xanh & 2 Tầng khay thác nước cắt từ chai',
-        desc: 'Bình nước nhựa 5L đặt trên khung giá đỡ cao nhận nước từ Bơm 2 qua ống silicon. Lỗ khoét đáy bình (kèm lỗ thông khí trên vai bình) dẫn nước chảy qua 2 tầng khay nhựa trong suốt cắt từ đáy chai xếp bậc thang cùng đá sỏi, tạo thành dòng thác tuần hoàn khép kín đổ ngược về hồ.',
-        cam: { theta: 0.55, phi: 1.08, radius: 6.4, target: [1.3, 2.35, -0.8] },
-        openLid: false
-      },
-      garden: {
-        tag: 'Hệ sinh thái thu nhỏ',
-        title: 'Khay đế tái chế, Vùng trồng cây xanh & Hồ chứa nước',
-        desc: 'Đế khay nhựa trong suốt cỡ lớn được ngăn làm 2 khu vực hài hòa: bên trái là vùng đất trồng rau xà lách, cây cảnh xanh và hoa nhỏ viền đá sỏi; phía trước giữa là hồ nước xanh trong suốt chứa nước cấp chung cho cả Bơm 1 (tưới cây) và Bơm 2 (thác nước).',
-        cam: { theta: -0.45, phi: 1.0, radius: 7.2, target: [-1.4, 0.95, 0.3] },
-        openLid: false
-      },
-      blackbox: {
-        tag: 'An toàn điện • Bảo vệ mạch',
-        title: 'Hộp đen chống nước có nắp đậy (Chứa ESP8266, Relay 5V & MOSFET)',
-        desc: 'Điểm cải tiến thực tế của nhóm: toàn bộ mạch điều khiển (NodeMCU ESP8266, Relay 5V kênh NC cho Bơm 1 và Module MOSFET XY-MOS điều tốc PWM cho Bơm 2) được nhét gọn trong Hộp đen có nắp đậy kín, đặt ở góc khô ráo cao hơn mặt nước để ngăn tuyệt đối nước bắn vào gây chập mạch.',
-        cam: { theta: 0.78, phi: 0.88, radius: 4.9, target: [2.55, 1.15, 1.35] },
-        openLid: true
-      },
-      battery: {
-        tag: 'Nguồn động lực • Đặt bên ngoài',
-        title: 'Hộp pin 3 viên AA (4,5V) đặt ngoài ngay cạnh Hộp đen',
-        desc: 'Do hộp pin 3 viên AA (4,5V) có kích thước lớn không đặt vừa trong hộp đen nên nhóm bố trí gọn ở mặt khô ráo ngay bên ngoài, dễ tháo lắp thay pin sau mỗi buổi thuyết trình. Nguồn 4,5V cấp song song vào Relay và MOSFET (chung GND với ESP8266).',
-        cam: { theta: 1.15, phi: 0.95, radius: 4.8, target: [2.75, 0.95, -0.15] },
-        openLid: null
-      },
-      sensor: {
-        tag: 'Cảm biến ngoài • Chống úng cây',
-        title: 'Cảm biến độ ẩm đất 2 que (Nối vào chân A0)',
-        desc: 'Hai que đo kim loại cắm trực tiếp xuống vùng rễ cây (nối dây gọn vào Hộp đen). ESP8266 đọc tín hiệu Analog A0 mỗi 0,2 giây: khi đất khô (≤ 35%) đèn báo cam và tự bật Bơm 1; khi đạt độ ẩm vừa đủ (≥ 55%) đèn báo xanh và ngắt bơm ngay lập tức để chống úng cây.',
-        cam: { theta: -0.35, phi: 1.02, radius: 4.8, target: [-1.75, 1.1, 0.95] },
-        openLid: false
-      },
-      pumps: {
-        tag: '2 Máy bơm độc lập chìm trong hồ',
-        title: 'Bơm 1 (Tưới cây - Relay D1) & Bơm 2 (Thác nước - MOSFET D2)',
-        desc: 'Cả 2 máy bơm mini DC đều đặt chìm trong hồ nước để tránh chạy khô: Bơm 1 dẫn ống silicon sang vườn cây tưới tự động theo cảm biến; Bơm 2 đẩy nước lên bình thác 5L tuần hoàn. Khi bật tính năng Nhường nguồn, Bơm 2 tự tạm nghỉ lúc Bơm 1 tưới để tránh sụt áp pin.',
-        cam: { theta: 0.15, phi: 0.92, radius: 5.2, target: [0.05, 0.65, 1.25] },
-        openLid: false
-      }
+      overview: { tag: 'Tổng thể Aquaponics', title: 'Hệ sinh thái Hồ cá – Thác tạo oxy – Luống rau lọc hồi lưu', desc: 'Khay đế chung hứng nước hồi lưu chia 2 khu vực: nửa trái là hồ cá sinh thái cùng thác nước 4 tầng tái chế tạo oxy hòa tan; nửa phải là luống rau xanh quây hàng rào nĩa nhựa, tưới nhỏ giọt bằng nước hồ cá và lọc sạch qua tầng rễ quay lại hồ.', cam: { theta: 0.45, phi: 1.06, radius: 12.2, target: [0, 1.35, 0] }, lid: null },
+      fishpond: { tag: 'Nửa trái • Bơm 2 (D2)', title: 'Hồ cá sinh thái & Thác tạo oxy 4 tầng nắp nhựa', desc: 'Cá cảnh nhỏ sống trong bể trong suốt tạo nguồn dinh dưỡng hữu cơ tự nhiên. Bơm 2 đẩy nước lên ống trụ đứng đổ tràn qua 4 bậc nắp/chén nhựa xếp so le, bổ sung oxy hòa tan (O2) cho cá.', cam: { theta: -0.42, phi: 1.02, radius: 7.4, target: [-2.1, 1.65, 0.2] }, lid: false },
+      veggies: { tag: 'Nửa phải • Lọc hồi lưu', title: 'Luống rau xanh, Hàng rào nĩa nhựa & Rễ lọc nước', desc: 'Rau xà lách và cây xanh trồng trong đất thoáng, bao quanh bởi hàng rào chế tạo từ các chiếc nĩa nhựa tái chế. Nước tưới thấm qua rễ cây được hấp thu dinh dưỡng và lọc sạch chảy ngược về hồ cá theo khay đáy.', cam: { theta: 0.35, phi: 1.06, radius: 7.2, target: [2.1, 1.15, 0.35] }, lid: false },
+      drip: { tag: '2 Máy bơm chìm độc lập', title: 'Bơm 1 (Tưới nhỏ giọt - D1) & Bơm 2 (Thác nước - D2)', desc: 'Giữ nguyên cấu trúc 2 máy bơm chìm trong hồ: Bơm 1 đưa nước giàu dinh dưỡng qua ống chia 2 nhánh tưới nhỏ giọt vào gốc rau; Bơm 2 chuyên trách đẩy nước lên cột thác 4 tầng.', cam: { theta: 0.1, phi: 0.92, radius: 6.4, target: [-0.2, 1.1, 0.6] }, lid: false },
+      sensors: { tag: 'Cảm biến cắm đất', title: 'Cảm biến độ ẩm đất (A0) & 1 Cảm biến nhiệt đất DS18B20 (D5)', desc: 'Chỉ sử dụng 1 đầu dò DS18B20 chống nước cắm trực tiếp vào đất trồng rau (không cắm vào hồ cá) cùng cảm biến độ ẩm 2 que để kiểm soát tưới chống úng, chống sốc nhiệt rễ và điều tiết chế độ sinh thái.', cam: { theta: 0.62, phi: 0.96, radius: 5.5, target: [1.55, 1.25, 1.15] }, lid: false },
+      led: { tag: 'Chiếu sáng • D7 PWM', title: 'Đèn LED Grow Light & Trang trí hồ cá (PWM)', desc: 'Thanh đèn LED đặt trên khung vòm phía trên mô hình, nối chân D7 qua điện trở hạn dòng. Hỗ trợ điều chỉnh độ sáng mượt 0–100% hoặc tự động bật theo khung giờ 06:00–20:00.', cam: { theta: 0.2, phi: 1.12, radius: 8.6, target: [0, 2.75, 0] }, lid: false },
+      blackbox: { tag: 'An toàn điện • Bảo vệ mạch', title: 'Hộp đen chống nước (ESP8266, Relay 5V, MOSFET XY-MOS)', desc: 'Toàn bộ bo mạch điều khiển được đóng kín trong hộp đen chống nước đặt tách biệt bên ngoài khay ẩm; hộp pin 3×AA (4,5V) đặt gọn ngay cạnh để dễ tháo lắp sau buổi thuyết trình.', cam: { theta: 0.95, phi: 0.85, radius: 5.6, target: [4.6, 0.95, -1.35] }, lid: true }
     };
 
     function init3DScene() {
       const container = document.getElementById('viewer-3d');
-      const fallback = document.getElementById('webgl-fallback');
-      if (!container || typeof THREE === 'undefined') {
-        if (fallback) fallback.classList.remove('hidden');
-        return;
-      }
-
-      let renderer;
-      try {
-        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-      } catch (e) {
-        if (fallback) fallback.classList.remove('hidden');
-        return;
-      }
-
+      if (!container || typeof THREE === 'undefined') return;
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(container.clientWidth, container.clientHeight);
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.outputEncoding = THREE.sRGBEncoding;
       container.appendChild(renderer.domElement);
 
       const scene = new THREE.Scene();
-
       const camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 100);
 
-      // Lighting setup (crisp studio + subtle cosmic rim light)
-      const ambientLight = new THREE.AmbientLight(0xdbeafe, 0.68);
-      scene.add(ambientLight);
+      scene.add(new THREE.AmbientLight(0xdbeafe, 0.65));
+      scene.add(new THREE.HemisphereLight(0x93c5fd, 0x0f172a, 0.55));
+      const dir = new THREE.DirectionalLight(0xffffff, 1.0);
+      dir.position.set(7, 13, 8); dir.castShadow = true; scene.add(dir);
 
-      const hemiLight = new THREE.HemisphereLight(0x93c5fd, 0x0f172a, 0.55);
-      scene.add(hemiLight);
+      const root = new THREE.Group();
+      scene.add(root);
 
-      const dirLight = new THREE.DirectionalLight(0xffffff, 1.05);
-      dirLight.position.set(7, 12, 8);
-      dirLight.castShadow = true;
-      dirLight.shadow.mapSize.width = 1024;
-      dirLight.shadow.mapSize.height = 1024;
-      dirLight.shadow.camera.near = 1;
-      dirLight.shadow.camera.far = 30;
-      dirLight.shadow.camera.left = -7;
-      dirLight.shadow.camera.right = 7;
-      dirLight.shadow.camera.top = 7;
-      dirLight.shadow.camera.bottom = -7;
-      scene.add(dirLight);
+      const clearMat = new THREE.MeshPhysicalMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0.32, roughness: 0.12, side: THREE.DoubleSide });
+      const whitePlasticMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.35, metalness: 0.05 });
+      const waterMat = new THREE.MeshPhysicalMaterial({ color: 0x0ea5e9, transparent: true, opacity: 0.55, roughness: 0.08 });
+      const soilMat = new THREE.MeshStandardMaterial({ color: 0x452c1b, roughness: 0.95 });
 
-      const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.55);
-      rimLight.position.set(-8, 6, -7);
-      scene.add(rimLight);
+      // 1. OUTER RECIRCULATION BASE TRAY (Light grey/white tray from image)
+      const outerTray = new THREE.Mesh(new THREE.BoxGeometry(9.2, 0.38, 5.2), new THREE.MeshStandardMaterial({ color: 0xcbd5e1, roughness: 0.45 }));
+      outerTray.position.set(0, 0.19, 0); outerTray.receiveShadow = true; root.add(outerTray);
 
-      // Root group for the entire garden model
-      const modelGroup = new THREE.Group();
-      scene.add(modelGroup);
+      const innerChannel = new THREE.Mesh(new THREE.BoxGeometry(8.7, 0.12, 4.7), waterMat);
+      innerChannel.position.set(0, 0.36, 0); root.add(innerChannel);
 
-      // Subtle glowing pedestal grid ring under model
-      const floorDisk = new THREE.Mesh(
-        new THREE.CylinderGeometry(6.2, 6.4, 0.12, 48),
-        new THREE.MeshStandardMaterial({ color: 0x0b1730, roughness: 0.7, metalness: 0.25 })
-      );
-      floorDisk.position.y = -0.07;
-      floorDisk.receiveShadow = true;
-      modelGroup.add(floorDisk);
+      // 2. LEFT HALF: FISH POND (x: -4.2 to -0.1)
+      const tankW = 4.1, tankH = 1.45, tankD = 4.4;
+      const tankWater = new THREE.Mesh(new THREE.BoxGeometry(tankW - 0.12, 1.15, tankD - 0.12), waterMat);
+      tankWater.position.set(-2.15, 0.98, 0); root.add(tankWater);
 
-      const floorRing = new THREE.Mesh(
-        new THREE.RingGeometry(6.15, 6.32, 64),
-        new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.35, side: THREE.DoubleSide })
-      );
-      floorRing.rotation.x = -Math.PI / 2;
-      floorRing.position.y = 0.005;
-      modelGroup.add(floorRing);
+      // Clear tank glass walls
+      const twF = new THREE.Mesh(new THREE.BoxGeometry(tankW, tankH, 0.07), clearMat); twF.position.set(-2.15, 1.1, tankD / 2);
+      const twB = twF.clone(); twB.position.z = -tankD / 2;
+      const twL = new THREE.Mesh(new THREE.BoxGeometry(0.07, tankH, tankD), clearMat); twL.position.set(-2.15 - tankW / 2, 1.1, 0);
+      const twR = twL.clone(); twR.position.x = -2.15 + tankW / 2;
+      root.add(twF, twB, twL, twR);
 
-      // -------------------- MATERIALS --------------------
-      const clearPlasticMat = new THREE.MeshPhysicalMaterial({
-        color: 0xe0f2fe,
-        transparent: true,
-        opacity: 0.34,
-        roughness: 0.12,
-        metalness: 0.05,
-        reflectivity: 0.9,
-        side: THREE.DoubleSide
-      });
-
-      const fencePlasticMat = new THREE.MeshPhysicalMaterial({
-        color: 0xf0f9ff,
-        transparent: true,
-        opacity: 0.62,
-        roughness: 0.18,
-        metalness: 0.04,
-        side: THREE.DoubleSide
-      });
-
-      const waterMat = new THREE.MeshPhysicalMaterial({
-        color: 0x0ea5e9,
-        transparent: true,
-        opacity: 0.62,
-        roughness: 0.08,
-        metalness: 0.1
-      });
-
-      const soilMat = new THREE.MeshStandardMaterial({
-        color: 0x4b3321,
-        roughness: 0.95,
-        metalness: 0.02
-      });
-
-      const stoneColors = [0x94a3b8, 0x64748b, 0x78716c, 0xa8a29e];
-
-      // -------------------- 1. RECYCLED CLEAR PLASTIC BASE TRAY --------------------
-      const trayW = 8.4, trayD = 6.2, trayH = 0.85;
-      const trayBottom = new THREE.Mesh(
-        new THREE.BoxGeometry(trayW, 0.12, trayD),
-        new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6, metalness: 0.15 })
-      );
-      trayBottom.position.set(0, 0.06, 0);
-      trayBottom.receiveShadow = true;
-      modelGroup.add(trayBottom);
-
-      // Translucent recycled tray walls
-      const wallThickness = 0.08;
-      const wallFront = new THREE.Mesh(new THREE.BoxGeometry(trayW, trayH, wallThickness), clearPlasticMat);
-      wallFront.position.set(0, trayH / 2 + 0.08, trayD / 2);
-      const wallBack = wallFront.clone();
-      wallBack.position.z = -trayD / 2;
-      const wallLeft = new THREE.Mesh(new THREE.BoxGeometry(wallThickness, trayH, trayD), clearPlasticMat);
-      wallLeft.position.set(-trayW / 2, trayH / 2 + 0.08, 0);
-      const wallRight = wallLeft.clone();
-      wallRight.position.x = trayW / 2;
-      modelGroup.add(wallFront, wallBack, wallLeft, wallRight);
-
-      // -------------------- 2. PLASTIC BOTTLE CUT FENCE (NOT POPSICLE STICKS) --------------------
-      const fenceGroup = new THREE.Group();
-      // Create pointed plastic picket geometry (resembles cut clear PET bottle strip)
-      const picketShape = new THREE.Shape();
-      picketShape.moveTo(-0.11, 0);
-      picketShape.lineTo(0.11, 0);
-      picketShape.lineTo(0.11, 1.05);
-      picketShape.lineTo(0, 1.24);
-      picketShape.lineTo(-0.11, 1.05);
-      picketShape.closePath();
-      const picketGeo = new THREE.ExtrudeGeometry(picketShape, { depth: 0.035, bevelEnabled: false });
-      picketGeo.center();
-
-      function addFenceLine(x1, z1, x2, z2, count) {
-        const dx = x2 - x1;
-        const dz = z2 - z1;
-        const rotY = Math.atan2(dx, dz) + Math.PI / 2;
-        for (let i = 0; i <= count; i++) {
-          const t = i / count;
-          const picket = new THREE.Mesh(picketGeo, fencePlasticMat);
-          picket.position.set(x1 + dx * t, 0.72, z1 + dz * t);
-          picket.rotation.y = rotY;
-          picket.castShadow = true;
-          fenceGroup.add(picket);
-        }
-        // Horizontal clear plastic tie strip
-        const len = Math.hypot(dx, dz);
-        const strip = new THREE.Mesh(new THREE.BoxGeometry(len, 0.08, 0.025), clearPlasticMat);
-        strip.position.set((x1 + x2) / 2, 0.65, (z1 + z2) / 2);
-        strip.rotation.y = Math.atan2(-dz, dx);
-        fenceGroup.add(strip);
+      // Animated 3D Fish swimming inside left tank
+      const fishList = [];
+      const fishColors = [0xfb923c, 0xf43f5e, 0x38bdf8, 0xfacc15, 0x34d399, 0xc084fc];
+      for (let i = 0; i < 6; i++) {
+        const fg = new THREE.Group();
+        const body = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 8), new THREE.MeshStandardMaterial({ color: fishColors[i], roughness: 0.3 }));
+        body.scale.set(1.5, 0.65, 0.5);
+        const tail = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.18, 4), new THREE.MeshStandardMaterial({ color: fishColors[i] }));
+        tail.rotation.z = -Math.PI / 2; tail.position.x = -0.22;
+        fg.add(body, tail);
+        root.add(fg);
+        fishList.push({ mesh: fg, cx: -2.2 + (i % 3 - 1) * 0.65, cy: 0.68 + (i % 3) * 0.24, cz: (i % 2 === 0 ? 0.55 : -0.55), rx: 0.55 + (i % 2) * 0.35, rz: 0.45 + (i % 3) * 0.2, spd: 0.7 + i * 0.14, phase: i * 1.1 });
       }
 
-      const fx = trayW / 2 + 0.1;
-      const fz = trayD / 2 + 0.1;
-      addFenceLine(-fx, fz, fx, fz, 26);   // Front
-      addFenceLine(-fx, -fz, fx, -fz, 26); // Back
-      addFenceLine(-fx, -fz, -fx, fz, 19); // Left
-      addFenceLine(fx, -fz, fx, fz, 19);   // Right
-      modelGroup.add(fenceGroup);
-
-      // -------------------- 3. GARDEN SOIL BED & PLANTS --------------------
-      // Left-side & back-left soil zone
-      const soilMain = new THREE.Mesh(new THREE.BoxGeometry(4.1, 0.62, 5.75), soilMat);
-      soilMain.position.set(-2.0, 0.42, 0);
-      soilMain.receiveShadow = true;
-      modelGroup.add(soilMain);
-
-      // Back-center soil bridge behind pond
-      const soilBack = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.56, 2.3), soilMat);
-      soilBack.position.set(0.6, 0.39, -1.75);
-      soilBack.receiveShadow = true;
-      modelGroup.add(soilBack);
-
-      // Helper to build lush 3D lettuce / leafy plants
-      function createLettuce(x, y, z, scale) {
-        const plant = new THREE.Group();
-        const leafMat1 = new THREE.MeshStandardMaterial({ color: 0x4ade80, roughness: 0.65, side: THREE.DoubleSide });
-        const leafMat2 = new THREE.MeshStandardMaterial({ color: 0x22c55e, roughness: 0.7, side: THREE.DoubleSide });
-        for (let ring = 0; ring < 2; ring++) {
-          const count = ring === 0 ? 6 : 8;
-          for (let i = 0; i < count; i++) {
-            const ang = (i / count) * Math.PI * 2 + ring * 0.4;
-            const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.32 - ring * 0.05, 8, 6), ring === 0 ? leafMat1 : leafMat2);
-            leaf.scale.set(0.95, 0.25, 1.35);
-            leaf.position.set(Math.cos(ang) * (0.16 + ring * 0.16), 0.18 + (1 - ring) * 0.12, Math.sin(ang) * (0.16 + ring * 0.16));
-            leaf.rotation.y = -ang + Math.PI / 2;
-            leaf.rotation.x = 0.45 + ring * 0.32;
-            leaf.castShadow = true;
-            plant.add(leaf);
-          }
-        }
-        plant.position.set(x, y, z);
-        plant.scale.setScalar(scale);
-        modelGroup.add(plant);
+      // Aquatic plants & pebbles inside fish tank
+      for (let i = 0; i < 14; i++) {
+        const st = new THREE.Mesh(new THREE.DodecahedronGeometry(0.14 + (i % 3) * 0.04, 0), new THREE.MeshStandardMaterial({ color: i % 2 ? 0x64748b : 0x94a3b8, roughness: 0.85 }));
+        st.scale.set(1.2, 0.6, 1); st.position.set(-3.7 + (i % 5) * 0.65, 0.48, -1.5 + Math.floor(i / 5) * 1.3);
+        root.add(st);
       }
 
-      // Helper to build taller green herb/pepper bush
-      function createTallPlant(x, y, z, heightScale) {
-        const bush = new THREE.Group();
-        const stemMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.7 });
-        const leafMat = new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.6 });
-        for (let b = 0; b < 3; b++) {
-          const h = (0.9 + b * 0.32) * heightScale;
-          const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.05, h, 8), stemMat);
-          stem.position.set((b - 1) * 0.15, h / 2, (b % 2 === 0 ? 0.1 : -0.1));
-          stem.rotation.z = (b - 1) * 0.14;
-          bush.add(stem);
+      // 3. 4-TIER RECYCLED CUP WATERFALL (Left-back of fish pond)
+      const riserCol = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 3.2, 24), clearMat);
+      riserCol.position.set(-0.95, 2.0, -0.75); root.add(riserCol);
 
-          for (let l = 0; l < 5; l++) {
-            const a = l * 1.25 + b;
-            const lf = new THREE.Mesh(new THREE.SphereGeometry(0.24, 8, 6), leafMat);
-            lf.scale.set(0.75, 0.2, 1.4);
-            lf.position.set(
-              stem.position.x + Math.cos(a) * 0.24,
-              h * (0.55 + l * 0.1),
-              stem.position.z + Math.sin(a) * 0.24
-            );
-            lf.rotation.y = -a;
-            lf.rotation.x = 0.3;
-            lf.castShadow = true;
-            bush.add(lf);
-          }
-        }
-        bush.position.set(x, y, z);
-        modelGroup.add(bush);
-      }
-
-      // Helper to create small decorative flowers
-      function createFlower(x, y, z, petalColor) {
-        const fl = new THREE.Group();
-        const stem = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.02, 0.025, 0.55, 6),
-          new THREE.MeshStandardMaterial({ color: 0x15803d })
-        );
-        stem.position.y = 0.27;
-        fl.add(stem);
-        const center = new THREE.Mesh(
-          new THREE.SphereGeometry(0.07, 8, 8),
-          new THREE.MeshStandardMaterial({ color: 0xfacc15, emissive: 0x713f12, emissiveIntensity: 0.2 })
-        );
-        center.position.y = 0.56;
-        fl.add(center);
-        const pMat = new THREE.MeshStandardMaterial({ color: petalColor, roughness: 0.5 });
-        for (let i = 0; i < 6; i++) {
-          const a = (i / 6) * Math.PI * 2;
-          const p = new THREE.Mesh(new THREE.SphereGeometry(0.08, 6, 6), pMat);
-          p.scale.set(1, 0.35, 1.3);
-          p.position.set(Math.cos(a) * 0.1, 0.56, Math.sin(a) * 0.1);
-          p.rotation.y = -a;
-          fl.add(p);
-        }
-        fl.position.set(x, y, z);
-        modelGroup.add(fl);
-      }
-
-      // Populate plants
-      createTallPlant(-3.0, 0.72, -1.6, 1.25);
-      createTallPlant(-1.1, 0.72, -2.0, 1.35);
-      createLettuce(-2.9, 0.72, 0.5, 1.15);
-      createLettuce(-2.8, 0.72, 1.9, 1.0);
-      createLettuce(-1.4, 0.72, -0.5, 0.95);
-      createFlower(-1.8, 0.72, -1.2, 0xf43f5e);
-      createFlower(-3.3, 0.72, -0.3, 0xf472b6);
-      createFlower(-0.8, 0.72, -1.1, 0xfb7185);
-
-      // -------------------- 4. WATER POND & RIVER STONES --------------------
-      const pondFloor = new THREE.Mesh(
-        new THREE.CylinderGeometry(1.65, 1.55, 0.08, 28),
-        new THREE.MeshStandardMaterial({ color: 0x0c4a6e, roughness: 0.4 })
-      );
-      pondFloor.position.set(0.05, 0.15, 1.15);
-      modelGroup.add(pondFloor);
-
-      const pondWater = new THREE.Mesh(
-        new THREE.CylinderGeometry(1.62, 1.54, 0.46, 32),
-        waterMat
-      );
-      pondWater.position.set(0.05, 0.42, 1.15);
-      modelGroup.add(pondWater);
-
-      // Pond surface animated ripple ring
-      const rippleMat = new THREE.MeshBasicMaterial({ color: 0xbae6fd, transparent: true, opacity: 0.55, side: THREE.DoubleSide });
-      const ripple1 = new THREE.Mesh(new THREE.RingGeometry(0.18, 0.25, 28), rippleMat);
-      ripple1.rotation.x = -Math.PI / 2;
-      ripple1.position.set(0.28, 0.665, 0.65);
-      modelGroup.add(ripple1);
-
-      const ripple2 = new THREE.Mesh(new THREE.RingGeometry(0.32, 0.38, 28), rippleMat.clone());
-      ripple2.rotation.x = -Math.PI / 2;
-      ripple2.position.set(0.28, 0.665, 0.65);
-      modelGroup.add(ripple2);
-
-      // Decorative pebbles around pond & waterfall base
-      function addPebble(x, y, z, rx, ry, rz) {
-        const mat = new THREE.MeshStandardMaterial({
-          color: stoneColors[Math.floor(Math.random() * stoneColors.length)],
-          roughness: 0.85
-        });
-        const stone = new THREE.Mesh(new THREE.DodecahedronGeometry(0.22, 1), mat);
-        stone.scale.set(rx, ry, rz);
-        stone.position.set(x, y, z);
-        stone.castShadow = true;
-        stone.receiveShadow = true;
-        modelGroup.add(stone);
-      }
-
-      const pondStoneCoords = [
-        [-1.35, 0.72, 1.85], [-1.5, 0.74, 1.15], [-1.3, 0.72, 0.4], [-0.8, 0.74, -0.25],
-        [-0.1, 0.76, -0.45], [0.65, 0.82, -0.45], [1.25, 0.82, -0.1], [1.55, 0.74, 0.6],
-        [1.55, 0.72, 1.45], [1.2, 0.72, 2.25], [0.4, 0.72, 2.65], [-0.55, 0.72, 2.55],
-        // Rocky mound supporting waterfall tiers
-        [1.15, 1.05, -0.95], [1.55, 1.25, -1.25], [0.75, 1.15, -1.05], [0.95, 1.45, -0.85],
-        [0.45, 0.95, -0.15], [1.25, 0.95, 0.2]
+      const cupCoords = [
+        [-1.05, 3.45, -0.75],
+        [-1.62, 2.82, -0.45],
+        [-2.18, 2.22, -0.15],
+        [-2.74, 1.65,  0.15]
       ];
-      pondStoneCoords.forEach((p, idx) => {
-        const s = 0.85 + (idx % 4) * 0.25;
-        addPebble(p[0], p[1], p[2], s * 1.1, s * 0.75, s);
+      cupCoords.forEach(([x, y, z]) => {
+        const cup = new THREE.Group();
+        const wall = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.38, 0.32, 22), whitePlasticMat);
+        const wat = new THREE.Mesh(new THREE.CylinderGeometry(0.37, 0.35, 0.22, 20), waterMat);
+        wat.position.y = 0.06;
+        cup.add(wall, wat);
+        cup.position.set(x, y, z);
+        root.add(cup);
       });
 
-      // -------------------- 5. ELEVATED STAND, 5L BLUE-CAP BOTTLE & 2 WATERFALL TIERS --------------------
-      // Stand frame supporting top 5L bottle
-      const standMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.6, roughness: 0.35 });
-      const legOffsets = [[-0.55, -0.55], [0.55, -0.55], [-0.55, 0.55], [0.55, 0.55]];
-      legOffsets.forEach(([ox, oz]) => {
-        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 2.15, 8), standMat);
-        leg.position.set(1.85 + ox, 1.2, -1.55 + oz);
-        leg.castShadow = true;
-        modelGroup.add(leg);
-      });
-      const standTop = new THREE.Mesh(new THREE.BoxGeometry(1.35, 0.08, 1.35), standMat);
-      standTop.position.set(1.85, 2.28, -1.55);
-      modelGroup.add(standTop);
+      // Ripple rings where 4th cup splashes into pond
+      const ripple = new THREE.Mesh(new THREE.RingGeometry(0.18, 0.25, 24), new THREE.MeshBasicMaterial({ color: 0xbae6fd, transparent: true, opacity: 0.65, side: THREE.DoubleSide }));
+      ripple.rotation.x = -Math.PI / 2; ripple.position.set(-3.12, 1.56, 0.42); root.add(ripple);
 
-      // 5L Plastic Bottle Reservoir
-      const bottleGroup = new THREE.Group();
-      bottleGroup.position.set(1.85, 2.34, -1.55);
+      // 4. RIGHT HALF: VEGETABLE BED + PLASTIC FORK FENCE + ROOT FILTRATION (x: 0.1 to 4.2)
+      const soilMesh = new THREE.Mesh(new THREE.BoxGeometry(4.0, 1.15, 4.15), soilMat);
+      soilMesh.position.set(2.15, 1.05, 0); soilMesh.receiveShadow = true; root.add(soilMesh);
 
-      const bottleBody = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.68, 1.35, 28, 1, false), clearPlasticMat);
-      bottleBody.position.y = 0.68;
-      bottleGroup.add(bottleBody);
-
-      // Bottle ribs
-      [0.45, 0.85, 1.15].forEach((ry) => {
-        const rib = new THREE.Mesh(new THREE.TorusGeometry(0.685, 0.02, 8, 28), clearPlasticMat);
-        rib.rotation.x = Math.PI / 2;
-        rib.position.y = ry;
-        bottleGroup.add(rib);
-      });
-
-      // Bottle shoulder & neck
-      const shoulder = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.68, 0.38, 28), clearPlasticMat);
-      shoulder.position.y = 1.54;
-      bottleGroup.add(shoulder);
-
-      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.18, 20), clearPlasticMat);
-      neck.position.y = 1.8;
-      bottleGroup.add(neck);
-
-      // Iconic BLUE Screw Cap (HDPE #2)
-      const blueCap = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.27, 0.27, 0.22, 24),
-        new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.3, metalness: 0.1 })
-      );
-      blueCap.position.y = 1.94;
-      blueCap.castShadow = true;
-      bottleGroup.add(blueCap);
-
-      // Water volume inside top 5L bottle
-      const bottleWater = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.63, 0.63, 0.85, 24),
-        waterMat
-      );
-      bottleWater.position.y = 0.45;
-      bottleGroup.add(bottleWater);
-
-      // Cut plastic spout at bottom-left of bottle
-      const spout = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.08, 0.28), clearPlasticMat);
-      spout.position.set(-0.62, 0.14, 0.42);
-      spout.rotation.y = 0.55;
-      spout.rotation.z = 0.25;
-      bottleGroup.add(spout);
-
-      modelGroup.add(bottleGroup);
-
-      // 2-Tier Recycled Clear Plastic Waterfall Bowls (cut bottle bottoms)
-      function createWaterfallTier(x, y, z, radius) {
-        const tier = new THREE.Group();
-        const bowlWall = new THREE.Mesh(
-          new THREE.CylinderGeometry(radius, radius * 0.82, 0.36, 26, 1, true),
-          clearPlasticMat
-        );
-        bowlWall.position.y = 0.18;
-        tier.add(bowlWall);
-
-        const bowlBase = new THREE.Mesh(
-          new THREE.CylinderGeometry(radius * 0.82, radius * 0.82, 0.04, 24),
-          clearPlasticMat
-        );
-        tier.add(bowlBase);
-
-        const tierWater = new THREE.Mesh(
-          new THREE.CylinderGeometry(radius * 0.9, radius * 0.8, 0.22, 24),
-          waterMat
-        );
-        tierWater.position.y = 0.14;
-        tier.add(tierWater);
-
-        tier.position.set(x, y, z);
-        modelGroup.add(tier);
-      }
-
-      createWaterfallTier(0.92, 1.72, -0.72, 0.56); // Tier 1 (upper)
-      createWaterfallTier(0.45, 1.05, 0.12, 0.62);  // Tier 2 (lower)
-
-      // -------------------- 6. TWO SUBMERGED PUMPS & SILICONE TUBES --------------------
-      const pumpBodyMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4, metalness: 0.3 });
-      const pumpAccentMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.3 });
-
-      // Pump 1 (Irrigation Pump - Left side of pond)
-      const pump1Group = new THREE.Group();
-      const p1Box = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.34, 0.36), pumpBodyMat);
-      const p1Nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.07, 0.22, 12), pumpAccentMat);
-      p1Nozzle.position.set(0, 0.22, 0);
-      pump1Group.add(p1Box, p1Nozzle);
-      pump1Group.position.set(-0.72, 0.36, 1.35);
-      modelGroup.add(pump1Group);
-
-      // Pump 2 (Waterfall Pump - Right side of pond)
-      const pump2Group = new THREE.Group();
-      const p2Box = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.34, 0.36), pumpBodyMat);
-      const p2Nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.07, 0.22, 12), new THREE.MeshStandardMaterial({ color: 0x34d399 }));
-      p2Nozzle.position.set(0, 0.22, 0);
-      pump2Group.add(p2Box, p2Nozzle);
-      pump2Group.position.set(0.92, 0.36, 1.05);
-      modelGroup.add(pump2Group);
-
-      const tubeMat = new THREE.MeshPhysicalMaterial({
-        color: 0xe0f2fe,
-        transparent: true,
-        opacity: 0.52,
-        roughness: 0.15
-      });
-
-      // Tube 1: Pump 1 -> Garden Soil Spray Nozzle
-      const tube1Curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-0.72, 0.58, 1.35),
-        new THREE.Vector3(-1.25, 0.92, 1.25),
-        new THREE.Vector3(-1.85, 0.95, 0.45),
-        new THREE.Vector3(-2.35, 1.15, 0.15)
-      ]);
-      const tube1Mesh = new THREE.Mesh(new THREE.TubeGeometry(tube1Curve, 28, 0.048, 8, false), tubeMat);
-      modelGroup.add(tube1Mesh);
-
-      // Drip/Spray nozzle tip in garden
-      const nozzleTip = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.07, 0.05, 0.14, 10),
-        new THREE.MeshStandardMaterial({ color: 0x0f172a })
-      );
-      nozzleTip.position.set(-2.35, 1.15, 0.15);
-      nozzleTip.rotation.z = 0.5;
-      modelGroup.add(nozzleTip);
-
-      // Tube 2: Pump 2 -> Top 5L Bottle Reservoir
-      const tube2Curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(0.92, 0.58, 1.05),
-        new THREE.Vector3(1.55, 1.1, 0.45),
-        new THREE.Vector3(2.45, 2.25, -0.75),
-        new THREE.Vector3(2.42, 3.05, -1.45),
-        new THREE.Vector3(2.15, 3.25, -1.55)
-      ]);
-      const tube2Mesh = new THREE.Mesh(new THREE.TubeGeometry(tube2Curve, 36, 0.052, 8, false), tubeMat);
-      modelGroup.add(tube2Mesh);
-
-      // -------------------- 7. SOIL MOISTURE SENSOR (EXTERNAL, INSERTED IN SOIL) --------------------
-      const sensorGroup = new THREE.Group();
-      sensorGroup.position.set(-1.75, 0.72, 0.95);
-
-      const prongMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.75, roughness: 0.25 });
-      const prong1 = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.55, 0.025), prongMat);
-      prong1.position.set(-0.07, 0.08, 0);
-      const prong2 = prong1.clone();
-      prong2.position.x = 0.07;
-
-      const sensorHead = new THREE.Mesh(
-        new THREE.BoxGeometry(0.32, 0.34, 0.08),
-        new THREE.MeshStandardMaterial({ color: 0x1e40af, roughness: 0.4 })
-      );
-      sensorHead.position.y = 0.44;
-      sensorHead.castShadow = true;
-
-      // Status LED on sensor head
-      const sensorLedMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
-      const sensorLed = new THREE.Mesh(new THREE.SphereGeometry(0.045, 10, 10), sensorLedMat);
-      sensorLed.position.set(0.08, 0.5, 0.05);
-
-      sensorGroup.add(prong1, prong2, sensorHead, sensorLed);
-      modelGroup.add(sensorGroup);
-
-      // -------------------- 8. WATERPROOF BLACK BOX WITH OPENING LID & INTERNAL ELECTRONICS --------------------
-      // Raised dry deck on front-right corner
-      const dryDeck = new THREE.Mesh(
-        new THREE.BoxGeometry(2.35, 0.62, 3.55),
-        new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.8 })
-      );
-      dryDeck.position.set(2.75, 0.42, 0.85);
-      dryDeck.receiveShadow = true;
-      modelGroup.add(dryDeck);
-
-      const blackBoxGroup = new THREE.Group();
-      blackBoxGroup.position.set(2.65, 0.74, 1.48);
-
-      const boxOuterMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.45, metalness: 0.2 });
-      const boxInnerMat = new THREE.MeshStandardMaterial({ color: 0x1f2937, roughness: 0.6 });
-
-      const bw = 1.85, bh = 0.76, bd = 1.42, wt = 0.07;
-      // Box floor & 4 walls (hollow inside so components are clearly visible when lid opens!)
-      const bFloor = new THREE.Mesh(new THREE.BoxGeometry(bw, wt, bd), boxInnerMat);
-      bFloor.position.y = wt / 2;
-      const bFront = new THREE.Mesh(new THREE.BoxGeometry(bw, bh, wt), boxOuterMat);
-      bFront.position.set(0, bh / 2, bd / 2 - wt / 2);
-      const bBack = bFront.clone();
-      bBack.position.z = -bd / 2 + wt / 2;
-      const bLeft = new THREE.Mesh(new THREE.BoxGeometry(wt, bh, bd), boxOuterMat);
-      bLeft.position.set(-bw / 2 + wt / 2, bh / 2, 0);
-      const bRight = bLeft.clone();
-      bRight.position.x = bw / 2 - wt / 2;
-      [bFloor, bFront, bBack, bLeft, bRight].forEach((m) => {
-        m.castShadow = true;
-        m.receiveShadow = true;
-        blackBoxGroup.add(m);
-      });
-
-      // Waterproof Box Lid (hinged/sliding upward & backward smoothly when opened)
-      const boxLidGroup = new THREE.Group();
-      const lidMesh = new THREE.Mesh(
-        new THREE.BoxGeometry(bw + 0.08, 0.1, bd + 0.08),
-        new THREE.MeshStandardMaterial({ color: 0x090d16, roughness: 0.35, metalness: 0.25 })
-      );
-      lidMesh.castShadow = true;
-      // Subtle cyan seal rim on lid
-      const lidSeal = new THREE.Mesh(
-        new THREE.BoxGeometry(bw + 0.09, 0.025, bd + 0.09),
-        new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.45 })
-      );
-      lidSeal.position.y = -0.045;
-      // Lid handle ridge
-      const lidHandle = new THREE.Mesh(
-        new THREE.BoxGeometry(0.55, 0.05, 0.14),
-        new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.4 })
-      );
-      lidHandle.position.y = 0.07;
-      boxLidGroup.add(lidMesh, lidSeal, lidHandle);
-      boxLidGroup.position.set(0, bh + 0.05, 0);
-      blackBoxGroup.add(boxLidGroup);
-
-      // --- INTERNAL ELECTRONICS INSIDE BLACK BOX ---
-      // 8a. NodeMCU ESP8266
-      const espGroup = new THREE.Group();
-      espGroup.position.set(-0.36, 0.12, -0.25);
-      const espPcb = new THREE.Mesh(
-        new THREE.BoxGeometry(0.85, 0.05, 0.52),
-        new THREE.MeshStandardMaterial({ color: 0x1e3a8a, roughness: 0.4 })
-      );
-      const espShield = new THREE.Mesh(
-        new THREE.BoxGeometry(0.36, 0.07, 0.32),
-        new THREE.MeshStandardMaterial({ color: 0xcbd5e1, metalness: 0.85, roughness: 0.2 })
-      );
-      espShield.position.set(-0.12, 0.055, 0);
-      const espUsb = new THREE.Mesh(
-        new THREE.BoxGeometry(0.14, 0.06, 0.18),
-        new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8, roughness: 0.25 })
-      );
-      espUsb.position.set(0.38, 0.05, 0);
-      const espLedMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-      const espLed = new THREE.Mesh(new THREE.SphereGeometry(0.032, 8, 8), espLedMat);
-      espLed.position.set(0.18, 0.06, 0.14);
-      espGroup.add(espPcb, espShield, espUsb, espLed);
-      blackBoxGroup.add(espGroup);
-
-      // 8b. Module Relay 5V (1 channel - Pump 1)
-      const relayGroup = new THREE.Group();
-      relayGroup.position.set(0.42, 0.12, -0.18);
-      const relayPcb = new THREE.Mesh(
-        new THREE.BoxGeometry(0.62, 0.05, 0.48),
-        new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.45 })
-      );
-      const relayCube = new THREE.Mesh(
-        new THREE.BoxGeometry(0.32, 0.28, 0.28),
-        new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.3 })
-      );
-      relayCube.position.set(-0.06, 0.16, 0);
-      const relayTerm = new THREE.Mesh(
-        new THREE.BoxGeometry(0.14, 0.16, 0.36),
-        new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.4 })
-      );
-      relayTerm.position.set(0.22, 0.1, 0);
-      const relayLedMat = new THREE.MeshBasicMaterial({ color: 0x334155 });
-      const relayLed = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), relayLedMat);
-      relayLed.position.set(-0.24, 0.06, 0.16);
-      relayGroup.add(relayPcb, relayCube, relayTerm, relayLed);
-      blackBoxGroup.add(relayGroup);
-
-      // 8c. Module MOSFET XY-MOS (Twin D4184 - Pump 2 PWM)
-      const mosfetGroup = new THREE.Group();
-      mosfetGroup.position.set(0.05, 0.12, 0.36);
-      const mosPcb = new THREE.Mesh(
-        new THREE.BoxGeometry(0.76, 0.05, 0.42),
-        new THREE.MeshStandardMaterial({ color: 0x1e40af, roughness: 0.4 })
-      );
-      const chipMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.35, metalness: 0.2 });
-      const chip1 = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.06, 0.16), chipMat);
-      chip1.position.set(-0.1, 0.05, 0);
-      const chip2 = chip1.clone();
-      chip2.position.x = 0.12;
-      const mosTerm = new THREE.Mesh(
-        new THREE.BoxGeometry(0.16, 0.16, 0.36),
-        new THREE.MeshStandardMaterial({ color: 0x0369a1, roughness: 0.35 })
-      );
-      mosTerm.position.set(0.3, 0.1, 0);
-      const mosLedMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
-      const mosLed = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), mosLedMat);
-      mosLed.position.set(-0.28, 0.06, 0.12);
-      mosfetGroup.add(mosPcb, chip1, chip2, mosTerm, mosLed);
-      blackBoxGroup.add(mosfetGroup);
-
-      // Soft interior inspection light (only bright when lid opens)
-      const boxLight = new THREE.PointLight(0x7dd3fc, 0, 3.2);
-      boxLight.position.set(0, 0.9, 0);
-      blackBoxGroup.add(boxLight);
-
-      modelGroup.add(blackBoxGroup);
-
-      // -------------------- 9. EXTERNAL 3xAA BATTERY PACK (4.5V) --------------------
-      const batteryGroup = new THREE.Group();
-      batteryGroup.position.set(2.85, 0.74, -0.05);
-
-      const batCase = new THREE.Mesh(
-        new THREE.BoxGeometry(1.15, 0.42, 0.98),
-        new THREE.MeshStandardMaterial({ color: 0x18181b, roughness: 0.55 })
-      );
-      batCase.position.y = 0.21;
-      batCase.castShadow = true;
-      batteryGroup.add(batCase);
-
-      // 3 visible AA cylindrical cells inside holder
-      for (let i = -1; i <= 1; i++) {
-        const cell = new THREE.Group();
-        const body = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.13, 0.13, 0.72, 16),
-          new THREE.MeshStandardMaterial({ color: 0x27272a, roughness: 0.35, metalness: 0.4 })
-        );
-        body.rotation.z = Math.PI / 2;
-        const capGold = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.132, 0.132, 0.22, 16),
-          new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.25, metalness: 0.7 })
-        );
-        capGold.rotation.z = Math.PI / 2;
-        capGold.position.x = 0.34;
-        const nub = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.05, 0.05, 0.06, 12),
-          new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.9, roughness: 0.2 })
-        );
-        nub.rotation.z = Math.PI / 2;
-        nub.position.x = 0.47;
-        cell.add(body, capGold, nub);
-        cell.position.set(-0.04, 0.38, i * 0.29);
-        batteryGroup.add(cell);
-      }
-      modelGroup.add(batteryGroup);
-
-      // -------------------- 10. ROUTING WIRES --------------------
-      function addWire(points, colorHex) {
-        const curve = new THREE.CatmullRomCurve3(points);
-        const wire = new THREE.Mesh(
-          new THREE.TubeGeometry(curve, 18, 0.022, 6, false),
-          new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.5 })
-        );
-        modelGroup.add(wire);
-      }
-      // Battery red & black power wires into Black Box
-      addWire([new THREE.Vector3(2.85, 0.96, 0.42), new THREE.Vector3(2.82, 1.02, 0.62), new THREE.Vector3(2.8, 0.95, 0.8)], 0xef4444);
-      addWire([new THREE.Vector3(2.68, 0.96, 0.42), new THREE.Vector3(2.65, 1.02, 0.62), new THREE.Vector3(2.62, 0.95, 0.8)], 0x0f172a);
-
-      // Moisture sensor signal wires routed to Black Box
-      addWire([
-        new THREE.Vector3(-1.75, 1.32, 0.95),
-        new THREE.Vector3(-1.1, 1.15, 2.35),
-        new THREE.Vector3(0.8, 0.92, 2.55),
-        new THREE.Vector3(1.75, 0.96, 1.75)
-      ], 0xf59e0b);
-      addWire([
-        new THREE.Vector3(-1.68, 1.32, 0.95),
-        new THREE.Vector3(-1.05, 1.13, 2.42),
-        new THREE.Vector3(0.85, 0.9, 2.6),
-        new THREE.Vector3(1.75, 0.92, 1.82)
-      ], 0x38bdf8);
-
-      // Pump power wires to Black Box
-      addWire([new THREE.Vector3(0.92, 0.45, 1.2), new THREE.Vector3(1.45, 0.82, 1.35), new THREE.Vector3(1.75, 0.9, 1.45)], 0x22c55e);
-
-      // -------------------- 11. ANIMATED 3D WATERFALL & SPRAY PARTICLES --------------------
-      // Waterfall particle pool (Bottle -> Tier 1 -> Tier 2 -> Pond)
-      const WF_COUNT = 180;
-      const wfGeo = new THREE.BufferGeometry();
-      const wfPositions = new Float32Array(WF_COUNT * 3);
-      const wfMeta = [];
-      for (let i = 0; i < WF_COUNT; i++) {
-        wfMeta.push({
-          segment: i % 3, // 0: bottle->tier1, 1: tier1->tier2, 2: tier2->pond
-          t: Math.random(),
-          jitterX: (Math.random() - 0.5) * 0.14,
-          jitterZ: (Math.random() - 0.5) * 0.14
-        });
-      }
-      wfGeo.setAttribute('position', new THREE.BufferAttribute(wfPositions, 3));
-      const wfMat = new THREE.PointsMaterial({
-        color: 0xbae6fd,
-        size: 0.12,
-        transparent: true,
-        opacity: 0.9
-      });
-      const wfParticles = new THREE.Points(wfGeo, wfMat);
-      modelGroup.add(wfParticles);
-
-      // Tube 2 flowing water beads (visualizing water pumped up to 5L bottle)
-      const TUBE_DOTS = 18;
-      const tubeDotGeo = new THREE.BufferGeometry();
-      const tubeDotPos = new Float32Array(TUBE_DOTS * 3);
-      const tubeDotT = Array.from({ length: TUBE_DOTS }, (_, i) => i / TUBE_DOTS);
-      tubeDotGeo.setAttribute('position', new THREE.BufferAttribute(tubeDotPos, 3));
-      const tubeDotMat = new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.11, transparent: true, opacity: 0.95 });
-      const tubeDots = new THREE.Points(tubeDotGeo, tubeDotMat);
-      modelGroup.add(tubeDots);
-
-      // Pump 1 Garden Spray Jets (3D animated droplets spraying onto soil/plants)
-      const SPRAY_COUNT = 95;
-      const sprayGeo = new THREE.BufferGeometry();
-      const sprayPositions = new Float32Array(SPRAY_COUNT * 3);
-      const sprayMeta = [];
-      for (let i = 0; i < SPRAY_COUNT; i++) {
-        const ang = Math.random() * Math.PI * 2;
-        const spd = 0.45 + Math.random() * 0.65;
-        sprayMeta.push({
-          t: Math.random(),
-          vx: Math.cos(ang) * spd * 0.85,
-          vz: Math.sin(ang) * spd * 0.85,
-          vy: 0.55 + Math.random() * 0.45
-        });
-      }
-      sprayGeo.setAttribute('position', new THREE.BufferAttribute(sprayPositions, 3));
-      const sprayMat = new THREE.PointsMaterial({
-        color: 0x67e8f9,
-        size: 0.1,
-        transparent: true,
-        opacity: 0.92
-      });
-      const sprayParticles = new THREE.Points(sprayGeo, sprayMat);
-      sprayParticles.visible = false;
-      modelGroup.add(sprayParticles);
-
-      // -------------------- 12. SIMULATION STATE & UI BINDING --------------------
-      const sim = {
-        moisture: 48,
-        autoMode: true,
-        p1Running: false,
-        p1DemoUntil: 0,
-        wfMode: 1,         // 0: Off, 1: Continuous, 2: Eco Cycle (6s on / 4s off)
-        wfPower: 75,       // 30 - 100%
-        sharePower: true,
-        lidOpen: false,
-        lidProgress: 0,    // 0 closed -> 1 open
-        cycleTimer: 0
-      };
-
-      // DOM elements
-      const hudMoistDot = document.getElementById('hud-moist-dot');
-      const hudMoistVal = document.getElementById('hud-moist-val');
-      const hudA0Val = document.getElementById('hud-a0-val');
-      const hudP1Val = document.getElementById('hud-p1-val');
-      const hudP2Val = document.getElementById('hud-p2-val');
-      const hudShareBadge = document.getElementById('hud-share-badge');
-      const simWfBadge = document.getElementById('sim-wf-badge');
-      const simP1Badge = document.getElementById('sim-p1-badge');
-      const pwmSlider = document.getElementById('pwm-slider');
-      const pwmValText = document.getElementById('pwm-val-text');
-      const wfCycleInfo = document.getElementById('wf-cycle-info');
-      const chkPowerShare = document.getElementById('chk-power-share');
-      const moistSlider = document.getElementById('moist-slider');
-      const moistStatusPill = document.getElementById('moist-status-pill');
-      const btnModeAuto = document.getElementById('btn-mode-auto');
-      const btnModeManual = document.getElementById('btn-mode-manual');
-      const btnDemo3s = document.getElementById('btn-demo-3s');
-      const btnManualOn = document.getElementById('btn-manual-p1-on');
-      const btnManualOff = document.getElementById('btn-manual-p1-off');
-      const simStatusText = document.getElementById('sim-status-text');
-      const btnToggleLid = document.getElementById('btn-toggle-lid');
-      const lidBtnLabel = document.getElementById('lid-btn-label');
-
-      function isWaterfallActiveNow() {
-        if (sim.wfMode === 0) return false;
-        if (sim.sharePower && sim.p1Running) return false;
-        if (sim.wfMode === 2) {
-          const mod = sim.cycleTimer % 10;
-          return mod < 6; // 6s ON, 4s OFF visual cycle
+      // Procedural Plastic Fork Fence surrounding vegetable bed (matching image!)
+      const forkGroup = new THREE.Group();
+      function makeFork(x, z, rotY) {
+        const f = new THREE.Group();
+        const handle = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.72, 0.03), whitePlasticMat);
+        handle.position.y = 0.36;
+        const neck = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.1, 0.03), whitePlasticMat);
+        neck.position.y = 0.75;
+        f.add(handle, neck);
+        for (let t = -1.5; t <= 1.5; t += 1) {
+          const tine = new THREE.Mesh(new THREE.BoxGeometry(0.025, 0.42, 0.025), whitePlasticMat);
+          tine.position.set(t * 0.05, 1.0, 0);
+          f.add(tine);
         }
-        return true;
+        f.position.set(x, 0.46, z); f.rotation.y = rotY;
+        forkGroup.add(f);
+      }
+      for (let i = 0; i <= 16; i++) {
+        const x = 0.18 + (i / 16) * 3.94;
+        makeFork(x, 2.12, 0);
+        makeFork(x, -2.12, Math.PI);
+      }
+      for (let i = 1; i < 16; i++) {
+        const z = -2.08 + (i / 16) * 4.16;
+        makeFork(4.18, z, Math.PI / 2);
+      }
+      root.add(forkGroup);
+
+      // Lush 3D Lettuce / Green Veggies + Flowers
+      function addLettuce(x, z, sc) {
+        const g = new THREE.Group();
+        const m1 = new THREE.MeshStandardMaterial({ color: 0x4ade80, roughness: 0.65 });
+        const m2 = new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.7 });
+        for (let r = 0; r < 2; r++) {
+          const cnt = r === 0 ? 5 : 7;
+          for (let i = 0; i < cnt; i++) {
+            const a = (i / cnt) * 6.283 + r * 0.5;
+            const lf = new THREE.Mesh(new THREE.SphereGeometry(0.32, 8, 6), r ? m2 : m1);
+            lf.scale.set(0.9, 0.25, 1.35);
+            lf.position.set(Math.cos(a) * (0.15 + r * 0.18), 0.16 + (1 - r) * 0.12, Math.sin(a) * (0.15 + r * 0.18));
+            lf.rotation.y = -a + 1.57; lf.rotation.x = 0.4 + r * 0.3;
+            g.add(lf);
+          }
+        }
+        g.position.set(x, 1.62, z); g.scale.setScalar(sc); root.add(g);
+      }
+      addLettuce(1.15, 0.65, 1.15); addLettuce(2.35, 0.85, 1.05); addLettuce(3.45, 0.55, 1.1);
+      addLettuce(1.45, -0.85, 1.0); addLettuce(2.95, -0.85, 1.2);
+
+      // 5. TWO SUBMERGED PUMPS & PIPING
+      const pumpMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4 });
+      const p1Mesh = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.34, 0.34), pumpMat); p1Mesh.position.set(-0.55, 0.62, 0.95);
+      const p2Mesh = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.34, 0.34), pumpMat); p2Mesh.position.set(-0.62, 0.62, -0.45);
+      root.add(p1Mesh, p2Mesh);
+
+      const tubeMat = new THREE.MeshPhysicalMaterial({ color: 0xe0f2fe, transparent: true, opacity: 0.6, roughness: 0.15 });
+      // Tube 2: Pump 2 -> Top of 4-tier waterfall
+      const t2Curve = new THREE.CatmullRomCurve3([new THREE.Vector3(-0.62, 0.8, -0.45), new THREE.Vector3(-0.75, 2.2, -0.75), new THREE.Vector3(-0.85, 3.8, -0.75), new THREE.Vector3(-1.05, 3.65, -0.75)]);
+      root.add(new THREE.Mesh(new THREE.TubeGeometry(t2Curve, 26, 0.055, 8, false), tubeMat));
+
+      // Tube 1: Pump 1 -> Split drip irrigation over lettuce bed (2 branches!)
+      const t1BranchA = new THREE.CatmullRomCurve3([new THREE.Vector3(-0.55, 0.8, 0.95), new THREE.Vector3(-0.2, 2.05, 0.7), new THREE.Vector3(1.2, 2.05, 0.7), new THREE.Vector3(3.4, 2.05, 0.6)]);
+      const t1BranchB = new THREE.CatmullRomCurve3([new THREE.Vector3(0.4, 2.05, 0.7), new THREE.Vector3(1.4, 2.05, -0.8), new THREE.Vector3(3.0, 2.05, -0.8)]);
+      root.add(new THREE.Mesh(new THREE.TubeGeometry(t1BranchA, 24, 0.048, 8, false), tubeMat));
+      root.add(new THREE.Mesh(new THREE.TubeGeometry(t1BranchB, 18, 0.045, 8, false), tubeMat));
+
+      // 6. SOIL MOISTURE SENSOR (A0) + 1 DS18B20 SOIL TEMP PROBE (D5)
+      const moistHead = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.32, 0.08), new THREE.MeshStandardMaterial({ color: 0x1d4ed8 }));
+      moistHead.position.set(1.25, 1.92, 1.45);
+      const moistLedMat = new THREE.MeshBasicMaterial({ color: 0x34d399 });
+      const moistLed = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), moistLedMat);
+      moistLed.position.set(1.32, 1.98, 1.5);
+      root.add(moistHead, moistLed);
+
+      // DS18B20 Stainless Steel Probe plugged into SOIL!
+      const dsProbe = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.65, 12), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.9, roughness: 0.2 }));
+      dsProbe.position.set(1.85, 1.72, 1.42);
+      const dsCap = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 0.14, 12), new THREE.MeshStandardMaterial({ color: 0x0f172a }));
+      dsCap.position.set(1.85, 2.08, 1.42);
+      root.add(dsProbe, dsCap);
+
+      // 7. OVERHEAD LED GROW LIGHT BAR (D7 PWM)
+      const frameMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.6, roughness: 0.35 });
+      const postL = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 3.6, 10), frameMat); postL.position.set(-4.35, 2.0, 0);
+      const postR = postL.clone(); postR.position.x = 4.35;
+      const topBar = new THREE.Mesh(new THREE.BoxGeometry(8.8, 0.12, 0.35), frameMat); topBar.position.set(0, 3.82, 0);
+      const ledStripMat = new THREE.MeshBasicMaterial({ color: 0xfef08a });
+      const ledStrip = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.05, 0.22), ledStripMat); ledStrip.position.set(0, 3.74, 0);
+      const growLight = new THREE.PointLight(0xfef08a, 1.1, 11); growLight.position.set(0, 3.55, 0);
+      root.add(postL, postR, topBar, ledStrip, growLight);
+
+      // 8. EXTERNAL WATERPROOF BLACK BOX + 3xAA BATTERY PACK
+      const boxGroup = new THREE.Group(); boxGroup.position.set(5.45, 0.05, -0.8);
+      const bxMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.45 });
+      const bw = 1.65, bh = 0.72, bd = 1.35;
+      const bFloor = new THREE.Mesh(new THREE.BoxGeometry(bw, 0.06, bd), bxMat); bFloor.position.y = 0.03;
+      const bF = new THREE.Mesh(new THREE.BoxGeometry(bw, bh, 0.06), bxMat); bF.position.set(0, bh / 2, bd / 2);
+      const bB = bF.clone(); bB.position.z = -bd / 2;
+      const bL = new THREE.Mesh(new THREE.BoxGeometry(0.06, bh, bd), bxMat); bL.position.set(-bw / 2, bh / 2, 0);
+      const bR = bL.clone(); bR.position.x = bw / 2;
+      boxGroup.add(bFloor, bF, bB, bL, bR);
+
+      // Internal ESP8266 + Relay + MOSFET
+      const esp = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.06, 0.46), new THREE.MeshStandardMaterial({ color: 0x1e3a8a })); esp.position.set(-0.32, 0.12, -0.2);
+      const rel = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.24, 0.42), new THREE.MeshStandardMaterial({ color: 0x0284c7 })); rel.position.set(0.38, 0.18, -0.18);
+      const mos = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.1, 0.36), new THREE.MeshStandardMaterial({ color: 0x1d4ed8 })); mos.position.set(0.05, 0.14, 0.32);
+      const boxLight = new THREE.PointLight(0x7dd3fc, 0, 3); boxLight.position.set(0, 0.85, 0);
+      boxGroup.add(esp, rel, mos, boxLight);
+
+      const lidGroup = new THREE.Group();
+      const lid = new THREE.Mesh(new THREE.BoxGeometry(bw + 0.08, 0.09, bd + 0.08), new THREE.MeshStandardMaterial({ color: 0x090d16, roughness: 0.35 }));
+      lidGroup.add(lid); lidGroup.position.set(0, bh + 0.05, 0);
+      boxGroup.add(lidGroup);
+      root.add(boxGroup);
+
+      // External 3xAA Battery Pack
+      const bat = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.42, 0.88), new THREE.MeshStandardMaterial({ color: 0x1f2937 }));
+      bat.position.set(5.45, 0.25, 0.75); root.add(bat);
+
+      // 9. ANIMATED PARTICLES: WATERFALL + DRIP IRRIGATION + RECIRCULATION RETURN
+      const wfCnt = 160, wfGeo = new THREE.BufferGeometry(), wfPos = new Float32Array(wfCnt * 3);
+      const wfMeta = Array.from({ length: wfCnt }, (_, i) => ({ seg: i % 4, t: Math.random(), jx: (Math.random() - 0.5) * 0.14, jz: (Math.random() - 0.5) * 0.14 }));
+      wfGeo.setAttribute('position', new THREE.BufferAttribute(wfPos, 3));
+      const wfPoints = new THREE.Points(wfGeo, new THREE.PointsMaterial({ color: 0xbae6fd, size: 0.12, transparent: true, opacity: 0.92 }));
+      root.add(wfPoints);
+
+      const dripCnt = 70, dripGeo = new THREE.BufferGeometry(), dripPos = new Float32Array(dripCnt * 3);
+      const dripOrigins = [[1.2, 2.02, 0.7], [2.3, 2.02, 0.65], [3.35, 2.02, 0.6], [1.45, 2.02, -0.8], [2.95, 2.02, -0.8]];
+      const dripMeta = Array.from({ length: dripCnt }, (_, i) => ({ o: dripOrigins[i % dripOrigins.length], t: Math.random() }));
+      dripGeo.setAttribute('position', new THREE.BufferAttribute(dripPos, 3));
+      const dripPoints = new THREE.Points(dripGeo, new THREE.PointsMaterial({ color: 0x34d399, size: 0.095 }));
+      root.add(dripPoints);
+
+      // Recirculation return particles flowing under vegetable roots back to pond
+      const retCnt = 36, retGeo = new THREE.BufferGeometry(), retPos = new Float32Array(retCnt * 3);
+      const retT = Array.from({ length: retCnt }, (_, i) => i / retCnt);
+      retGeo.setAttribute('position', new THREE.BufferAttribute(retPos, 3));
+      const retPoints = new THREE.Points(retGeo, new THREE.PointsMaterial({ color: 0x7dd3fc, size: 0.09, transparent: true, opacity: 0.85 }));
+      root.add(retPoints);
+
+      // 10. SIMULATION STATE & UI SYNC
+      const sim = {
+        autoMode: false, p1: false, p1DemoUntil: 0, wfMode: 1, wfPower: 75,
+        moisture: 46, soilTemp: 28.5, ledPower: 70, eco: true, night: false, share: true,
+        simWater: false, lidOpen: false, lidProg: 0, cycleT: 0
+      };
+      const chartHist = [];
+
+      function getEffWf() {
+        if (sim.wfMode === 0) return 0;
+        if (sim.wfMode === 2 && (sim.cycleT % 10) >= 6) return 0;
+        if (sim.autoMode && (sim.simWater || (sim.share && sim.p1))) return 0;
+        let p = sim.wfPower;
+        if (sim.autoMode) {
+          if (sim.eco) { if (sim.soilTemp >= 31) p = Math.min(100, p + 20); else if (sim.soilTemp >= 28.5) p = Math.min(100, p + 10); }
+          if (sim.night) p = Math.min(p, 40);
+        }
+        return p;
+      }
+
+      const el = id => document.getElementById(id);
+      function drawMiniChart() {
+        const c = el('sim-chart'); if (!c) return;
+        const ctx = c.getContext('2d'), W = c.width, H = c.height, pL = 36, pR = 38, pT = 12, pB = 18;
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = 'rgba(148,163,184,0.18)'; ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+          const y = pT + (H - pT - pB) * i / 4;
+          ctx.beginPath(); ctx.moveTo(pL, y); ctx.lineTo(W - pR, y); ctx.stroke();
+          ctx.fillStyle = '#34d399'; ctx.font = '10px Inter'; ctx.fillText((100 - i * 25) + '%', 4, y + 3);
+          ctx.fillStyle = '#fb923c'; ctx.fillText((42 - i * 6) + '°C', W - pR + 4, y + 3);
+        }
+        if (chartHist.length < 2) return;
+        const drawL = (fn, mn, mx, col) => {
+          ctx.beginPath(); ctx.strokeStyle = col; ctx.lineWidth = 2.4;
+          chartHist.forEach((d, idx) => {
+            const x = pL + (idx / (chartHist.length - 1)) * (W - pL - pR);
+            const y = pT + (H - pT - pB) * (1 - (Math.max(mn, Math.min(mx, fn(d))) - mn) / (mx - mn));
+            idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          });
+          ctx.stroke();
+        };
+        drawL(d => d.m, 0, 100, '#34d399');
+        drawL(d => d.t, 18, 42, '#fb923c');
       }
 
       function syncUI() {
-        const m = Math.round(sim.moisture);
-        const rawA0 = Math.round(980 - (m / 100) * (980 - 450));
-        hudMoistVal.textContent = m + '%';
-        hudA0Val.textContent = '(A0: ' + rawA0 + ')';
-        moistSlider.value = m;
+        const effWf = getEffWf();
+        const isHot = sim.soilTemp >= 35;
+        const alertOn = sim.simWater || isHot;
+        el('hud-moist-val').textContent = Math.round(sim.moisture) + '%';
+        el('hud-temp-val').textContent = sim.soilTemp.toFixed(1) + '°C';
+        el('hud-p1-val').textContent = sim.p1 ? 'ĐANG TƯỚI' : 'TẮT';
+        el('hud-p1-val').className = sim.p1 ? 'text-emerald-300' : 'text-slate-400';
+        el('hud-p2-val').textContent = effWf > 0 ? (effWf + '%') : 'TẮT';
+        el('hud-led-val').textContent = sim.ledPower + '%';
+        el('hud-alert-badge').classList.toggle('hidden', !alertOn);
+        el('moist-lbl').textContent = Math.round(sim.moisture) + '%';
+        el('moist-slider').value = Math.round(sim.moisture);
+        el('temp-lbl').textContent = sim.soilTemp.toFixed(1) + '°C';
+        el('pwm-lbl').textContent = sim.wfPower + '%';
+        el('led-lbl').textContent = sim.ledPower + '%';
+        el('lid-btn-label').textContent = sim.lidOpen ? 'Đóng nắp Hộp đen' : 'Mở nắp Hộp đen';
 
-        // Soil color subtly darkens when wetter
-        const dryness = 1 - m / 100;
-        soilMat.color.setRGB(0.22 + dryness * 0.16, 0.14 + dryness * 0.1, 0.09 + dryness * 0.06);
-
-        // Sensor LED & moisture pill
-        if (m <= 35) {
-          sensorLedMat.color.setHex(0xf97316); // Orange warning
-          hudMoistDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-ping';
-          moistStatusPill.className = 'px-2 py-0.5 rounded-md font-bold bg-amber-500/25 text-amber-300';
-          moistStatusPill.textContent = m + '% • Đất khô';
-        } else if (m >= 55) {
-          sensorLedMat.color.setHex(0x34d399); // Green sufficient
-          hudMoistDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
-          moistStatusPill.className = 'px-2 py-0.5 rounded-md font-bold bg-emerald-500/20 text-emerald-300';
-          moistStatusPill.textContent = m + '% • Đủ ẩm';
-        } else {
-          sensorLedMat.color.setHex(0x38bdf8); // Cyan stable
-          hudMoistDot.className = 'w-2 h-2 rounded-full bg-sky-400';
-          moistStatusPill.className = 'px-2 py-0.5 rounded-md font-bold bg-sky-500/20 text-sky-300';
-          moistStatusPill.textContent = m + '% • Ổn định';
-        }
-
-        // Pump 1 HUD & Relay LED
-        if (sim.p1Running) {
-          hudP1Val.textContent = sim.p1DemoUntil > performance.now() ? 'DEMO 3s' : 'ĐANG TƯỚI';
-          hudP1Val.className = 'text-emerald-300';
-          relayLedMat.color.setHex(0x34d399);
-        } else {
-          hudP1Val.textContent = 'TẮT';
-          hudP1Val.className = 'text-slate-400';
-          relayLedMat.color.setHex(0x334155);
-        }
-
-        // Pump 2 HUD & MOSFET LED
-        const wfOn = isWaterfallActiveNow();
-        const isPausedForPower = sim.wfMode !== 0 && sim.sharePower && sim.p1Running;
-        hudShareBadge.classList.toggle('hidden', !isPausedForPower);
-
-        if (wfOn) {
-          hudP2Val.textContent = 'CHẠY ' + sim.wfPower + '%';
-          hudP2Val.className = 'text-sky-300';
-          const lum = 0.35 + (sim.wfPower / 100) * 0.65;
-          mosLedMat.color.setRGB(0.22 * lum, 0.74 * lum, 0.97 * lum);
-        } else if (isPausedForPower) {
-          hudP2Val.textContent = 'NHƯỜNG PIN';
-          hudP2Val.className = 'text-amber-300';
-          mosLedMat.color.setHex(0x475569);
-        } else if (sim.wfMode === 2) {
-          hudP2Val.textContent = 'NGHỈ CHU KỲ';
-          hudP2Val.className = 'text-slate-300';
-          mosLedMat.color.setHex(0x334155);
-        } else {
-          hudP2Val.textContent = 'TẮT';
-          hudP2Val.className = 'text-slate-400';
-          mosLedMat.color.setHex(0x334155);
-        }
-
-        // Waterfall mode buttons highlight
-        document.querySelectorAll('.wf-mode-btn').forEach((btn) => {
-          const mode = Number(btn.dataset.wfmode);
-          const active = mode === sim.wfMode;
-          btn.className = active
-            ? 'wf-mode-btn py-2.5 px-2 rounded-xl text-xs font-bold bg-sky-500/30 text-white border border-sky-400/60 transition'
-            : 'wf-mode-btn py-2.5 px-2 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 hover:bg-white/10 transition';
+        el('sim-mode-badge').textContent = sim.autoMode ? 'TỰ ĐỘNG' : 'THỦ CÔNG';
+        el('btn-mode-manual').className = !sim.autoMode ? 'py-2.5 rounded-xl text-xs font-bold bg-amber-500/35 text-white border border-amber-400/70' : 'py-2.5 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15';
+        el('btn-mode-auto').className = sim.autoMode ? 'py-2.5 rounded-xl text-xs font-bold bg-emerald-500/35 text-white border border-emerald-400/70' : 'py-2.5 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15';
+        document.querySelectorAll('.wf-btn').forEach(b => {
+          const act = Number(b.dataset.wf) === sim.wfMode;
+          b.className = act ? 'wf-btn py-2 rounded-xl text-xs font-bold bg-sky-500/35 text-white border border-sky-400/70' : 'wf-btn py-2 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15';
         });
-        simWfBadge.textContent = sim.wfMode === 0 ? 'ĐÃ TẮT' : (sim.wfMode === 1 ? 'LIÊN TỤC' : 'TUẦN HOÀN');
-        wfCycleInfo.classList.toggle('hidden', sim.wfMode !== 2);
 
-        // Auto/Manual buttons
-        btnModeAuto.className = sim.autoMode
-          ? 'py-2.5 rounded-xl text-xs font-bold bg-emerald-500/30 text-white border border-emerald-400/60 transition'
-          : 'py-2.5 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 hover:bg-white/10 transition';
-        btnModeManual.className = !sim.autoMode
-          ? 'py-2.5 rounded-xl text-xs font-bold bg-amber-500/30 text-white border border-amber-400/60 transition'
-          : 'py-2.5 rounded-xl text-xs font-bold bg-white/5 text-slate-300 border border-white/15 hover:bg-white/10 transition';
-        simP1Badge.textContent = sim.autoMode ? 'TỰ ĐỘNG' : 'THỦ CÔNG';
+        growLight.intensity = (sim.ledPower / 100) * 1.65;
+        ledStripMat.color.setHSL(0.14, 0.9, 0.25 + (sim.ledPower / 100) * 0.65);
+        moistLedMat.color.setHex(sim.moisture <= 35 ? 0xf97316 : (sim.moisture >= 55 ? 0x34d399 : 0x38bdf8));
 
-        btnManualOn.disabled = sim.autoMode || sim.p1Running;
-        btnManualOff.disabled = sim.autoMode || !sim.p1Running;
-
-        // Lid button text
-        lidBtnLabel.textContent = sim.lidOpen ? 'Đóng nắp Hộp đen' : 'Mở nắp Hộp đen';
-
-        // Live descriptive status
-        const now = performance.now();
-        if (sim.p1DemoUntil > now) {
-          const left = Math.ceil((sim.p1DemoUntil - now) / 1000);
-          simStatusText.textContent = `Đang chạy Tưới thử Demo (còn ${left}s)... Bơm 1 phun nước 3D sang vườn cây.`;
-          simStatusText.className = 'text-teal-300 font-medium';
-        } else if (sim.p1Running && sim.autoMode) {
-          simStatusText.textContent = `Đất khô! Bơm 1 tự động tưới (${m}% → sẽ tự ngắt ở 55% để chống úng).`;
-          simStatusText.className = 'text-amber-300 font-medium';
-        } else if (sim.p1Running && !sim.autoMode) {
-          simStatusText.textContent = `Đang bật Bơm 1 ở chế độ Thủ công (Độ ẩm đất: ${m}%).`;
-          simStatusText.className = 'text-emerald-300 font-medium';
-        } else if (m >= 55) {
-          simStatusText.textContent = `Đất đã đủ ẩm (${m}% ≥ 55%). Bơm 1 tự ngắt chống úng rễ; thác nước hoạt động bình thường.`;
-          simStatusText.className = 'text-emerald-300 font-medium';
-        } else {
-          simStatusText.textContent = `Hệ thống sẵn sàng (Độ ẩm ${m}%). Kéo thanh trượt xuống ≤ 35% để kích hoạt tưới tự động!`;
-          simStatusText.className = 'text-sky-200 font-medium';
-        }
+        el('sim-status-text').textContent = !sim.autoMode
+          ? `THỦ CÔNG TOÀN QUYỀN: Bơm 1 ${sim.p1 ? 'ĐANG CHẠY' : 'TẮT'} · Thác ${effWf}% · LED ${sim.ledPower}% (Không bị khóa bởi cảm biến).`
+          : (alertOn ? `TỰ ĐỘNG CẢNH BÁO: ${sim.simWater ? 'Hết nước hồ cá!' : 'Đất quá nóng!'} Đã bảo vệ an toàn.` : `TỰ ĐỘNG: Độ ẩm ${Math.round(sim.moisture)}% (Bật ≤35%, Ngắt ≥55%), Nhiệt đất ${sim.soilTemp.toFixed(1)}°C.`);
       }
 
-      // Wire up simulation controls
-      document.querySelectorAll('.wf-mode-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          sim.wfMode = Number(btn.dataset.wfmode);
-          sim.cycleTimer = 0;
-          syncUI();
-        });
-      });
-
-      pwmSlider.addEventListener('input', (e) => {
-        sim.wfPower = Number(e.target.value);
-        pwmValText.textContent = sim.wfPower + '%';
-        syncUI();
-      });
-
-      chkPowerShare.addEventListener('change', (e) => {
-        sim.sharePower = e.target.checked;
-        syncUI();
-      });
-
-      moistSlider.addEventListener('input', (e) => {
-        sim.moisture = Number(e.target.value);
-        if (sim.autoMode && sim.p1DemoUntil <= performance.now()) {
-          if (sim.moisture <= 35) sim.p1Running = true;
-          else if (sim.moisture >= 55) sim.p1Running = false;
-        }
-        syncUI();
-      });
-
-      btnModeAuto.addEventListener('click', () => {
-        sim.autoMode = true;
-        sim.p1Running = sim.moisture <= 35;
-        showToast('Bơm 1 đã chuyển sang chế độ TỰ ĐỘNG theo cảm biến.');
-        syncUI();
-      });
-
-      btnModeManual.addEventListener('click', () => {
-        sim.autoMode = false;
-        sim.p1DemoUntil = 0;
-        sim.p1Running = false;
-        showToast('Bơm 1 đã chuyển sang chế độ THỦ CÔNG.');
-        syncUI();
-      });
-
-      btnManualOn.addEventListener('click', () => {
-        if (!sim.autoMode) {
-          sim.p1Running = true;
-          syncUI();
-        }
-      });
-
-      btnManualOff.addEventListener('click', () => {
-        if (!sim.autoMode) {
-          sim.p1Running = false;
-          syncUI();
-        }
-      });
-
-      btnDemo3s.addEventListener('click', () => {
-        sim.p1Running = true;
-        sim.p1DemoUntil = performance.now() + 3000;
-        showToast('Đang mô phỏng tưới thử 3 giây cho thuyết trình!');
-        syncUI();
-      });
-
-      btnToggleLid.addEventListener('click', () => {
-        sim.lidOpen = !sim.lidOpen;
-        showToast(sim.lidOpen ? 'Đã mở nắp Hộp đen: quan sát ESP8266, Relay 5V & MOSFET.' : 'Đã đóng kín nắp Hộp đen chống nước.');
-        syncUI();
-      });
-
-      // -------------------- 13. CUSTOM 360° ORBIT CAMERA (MOUSE + TOUCH + FLY-TO) --------------------
-      let autoRotate = true;
-      const camState = {
-        theta: 0.62,
-        phi: 1.06,
-        radius: 11.4,
-        target: new THREE.Vector3(0.1, 1.35, 0.1),
-        desiredTheta: 0.62,
-        desiredPhi: 1.06,
-        desiredRadius: 11.4,
-        desiredTarget: new THREE.Vector3(0.1, 1.35, 0.1)
+      // Bind Controls
+      el('btn-mode-manual').onclick = () => { sim.autoMode = false; showToast('Chế độ THỦ CÔNG: Toàn quyền bật/tắt bơm mọi lúc!'); syncUI(); };
+      el('btn-mode-auto').onclick = () => { sim.autoMode = true; showToast('Chế độ TỰ ĐỘNG thông minh đã kích hoạt.'); syncUI(); };
+      el('btn-p1-on').onclick = () => { sim.autoMode = false; sim.p1 = true; showToast('Đã BẬT Bơm 1 tưới nhỏ giọt (Thủ công).'); syncUI(); };
+      el('btn-p1-off').onclick = () => { sim.p1 = false; sim.p1DemoUntil = 0; showToast('Đã TẮT Bơm 1.'); syncUI(); };
+      el('btn-demo-3s').onclick = () => { sim.p1 = true; sim.p1DemoUntil = performance.now() + 3000; showToast('Đang tưới thử 3 giây...'); syncUI(); };
+      el('moist-slider').oninput = e => { sim.moisture = Number(e.target.value); if (sim.autoMode && !sim.simWater && sim.soilTemp < 35) { if (sim.moisture <= 35) sim.p1 = true; else if (sim.moisture >= 55) sim.p1 = false; } syncUI(); };
+      el('temp-slider').oninput = e => { sim.soilTemp = Number(e.target.value); if (sim.autoMode && sim.soilTemp >= 35) sim.p1 = false; syncUI(); };
+      el('pwm-slider').oninput = e => { sim.wfPower = Number(e.target.value); syncUI(); };
+      el('led-slider').oninput = e => { sim.ledPower = Number(e.target.value); syncUI(); };
+      el('chk-eco').onchange = e => { sim.eco = e.target.checked; syncUI(); };
+      el('chk-night').onchange = e => { sim.night = e.target.checked; syncUI(); };
+      el('chk-share').onchange = e => { sim.share = e.target.checked; syncUI(); };
+      document.querySelectorAll('.wf-btn').forEach(b => b.onclick = () => { sim.wfMode = Number(b.dataset.wf); sim.cycleT = 0; syncUI(); });
+      el('btn-sim-water').onclick = () => { sim.simWater = !sim.simWater; if (sim.autoMode && sim.simWater) sim.p1 = false; showToast(sim.simWater ? 'Cảnh báo ĐỎ: Mô phỏng cạn nước hồ cá!' : 'Đã tắt mô phỏng cạn nước.'); syncUI(); };
+      el('btn-test-mail').onclick = () => showToast('Đã gửi thử Email cảnh báo tới nguyenthetai0309@gmail.com!');
+      el('btn-toggle-lid').onclick = () => { sim.lidOpen = !sim.lidOpen; syncUI(); };
+      el('btn-export-csv').onclick = () => {
+        let csv = 'Thoi_gian,Do_am_dat_%,Nhiet_do_dat_C,Bom_1,Thac_PWM_%,LED_%\n';
+        chartHist.forEach(d => { csv += `${d.ts},${d.m.toFixed(0)},${d.t.toFixed(1)},${d.p1?'BAT':'TAT'},${d.wf},${d.led}\n`; });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' }));
+        a.download = 'STEM_Aquaponics_3D_Data.csv'; a.click();
+        showToast('Đã xuất file CSV dữ liệu thực nghiệm!');
       };
 
-      let isDragging = false;
-      let prevX = 0, prevY = 0;
-      let pinchStartDist = 0;
-      let pinchStartRadius = 11.4;
+      // Orbit Camera
+      let autoRotate = true, dragging = false, px = 0, py = 0;
+      const cam = { th: 0.45, ph: 1.06, r: 12.2, tg: new THREE.Vector3(0, 1.35, 0), dTh: 0.45, dPh: 1.06, dR: 12.2, dTg: new THREE.Vector3(0, 1.35, 0) };
+      const dom = renderer.domElement;
+      dom.addEventListener('mousedown', e => { dragging = true; autoRotate = false; el('btn-autorotate').textContent = 'Tự xoay 360°: TẮT'; px = e.clientX; py = e.clientY; });
+      window.addEventListener('mousemove', e => { if (!dragging) return; cam.dTh -= (e.clientX - px) * 0.008; cam.dPh = Math.max(0.28, Math.min(1.48, cam.dPh - (e.clientY - py) * 0.006)); px = e.clientX; py = e.clientY; });
+      window.addEventListener('mouseup', () => dragging = false);
+      dom.addEventListener('wheel', e => { e.preventDefault(); cam.dR = Math.max(4.2, Math.min(19, cam.dR + e.deltaY * 0.008)); }, { passive: false });
+      dom.addEventListener('touchstart', e => { if (e.touches.length === 1) { dragging = true; autoRotate = false; px = e.touches[0].clientX; py = e.touches[0].clientY; } }, { passive: true });
+      dom.addEventListener('touchmove', e => { if (dragging && e.touches.length === 1) { cam.dTh -= (e.touches[0].clientX - px) * 0.01; cam.dPh = Math.max(0.28, Math.min(1.48, cam.dPh - (e.touches[0].clientY - py) * 0.007)); px = e.touches[0].clientX; py = e.touches[0].clientY; } }, { passive: true });
+      dom.addEventListener('touchend', () => dragging = false);
 
-      const domEl = renderer.domElement;
-
-      // Mouse events
-      domEl.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        autoRotate = false;
-        updateAutoRotateBtn();
-        prevX = e.clientX;
-        prevY = e.clientY;
-      });
-      window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const dx = e.clientX - prevX;
-        const dy = e.clientY - prevY;
-        prevX = e.clientX;
-        prevY = e.clientY;
-        camState.desiredTheta -= dx * 0.008;
-        camState.desiredPhi = Math.max(0.28, Math.min(1.48, camState.desiredPhi - dy * 0.006));
-      });
-      window.addEventListener('mouseup', () => { isDragging = false; });
-
-      domEl.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        camState.desiredRadius = Math.max(3.8, Math.min(17.5, camState.desiredRadius + e.deltaY * 0.008));
-      }, { passive: false });
-
-      // Touch events (1-finger rotate, 2-finger pinch zoom)
-      domEl.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        autoRotate = false;
-        updateAutoRotateBtn();
-        if (e.touches.length === 1) {
-          isDragging = true;
-          prevX = e.touches[0].clientX;
-          prevY = e.touches[0].clientY;
-        } else if (e.touches.length === 2) {
-          isDragging = false;
-          pinchStartDist = Math.hypot(
-            e.touches[0].clientX - e.touches[1].clientX,
-            e.touches[0].clientY - e.touches[1].clientY
-          );
-          pinchStartRadius = camState.desiredRadius;
-        }
-      }, { passive: false });
-
-      domEl.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        if (e.touches.length === 1 && isDragging) {
-          const dx = e.touches[0].clientX - prevX;
-          const dy = e.touches[0].clientY - prevY;
-          prevX = e.touches[0].clientX;
-          prevY = e.touches[0].clientY;
-          camState.desiredTheta -= dx * 0.01;
-          camState.desiredPhi = Math.max(0.28, Math.min(1.48, camState.desiredPhi - dy * 0.007));
-        } else if (e.touches.length === 2 && pinchStartDist > 0) {
-          const dist = Math.hypot(
-            e.touches[0].clientX - e.touches[1].clientX,
-            e.touches[0].clientY - e.touches[1].clientY
-          );
-          const scale = pinchStartDist / dist;
-          camState.desiredRadius = Math.max(3.8, Math.min(17.5, pinchStartRadius * scale));
-        }
-      }, { passive: false });
-
-      domEl.addEventListener('touchend', () => {
-        isDragging = false;
-        pinchStartDist = 0;
-      });
-
-      // Camera toolbar buttons
-      const btnAutoRotate = document.getElementById('btn-autorotate');
-      const btnResetCam = document.getElementById('btn-reset-cam');
-      const btnZoomIn = document.getElementById('btn-zoom-in');
-      const btnZoomOut = document.getElementById('btn-zoom-out');
-
-      function updateAutoRotateBtn() {
-        btnAutoRotate.textContent = autoRotate ? 'Tự xoay 360°: BẬT' : 'Tự xoay 360°: TẮT';
-        btnAutoRotate.className = autoRotate
-          ? 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-sky-500/25 text-sky-200 border border-sky-400/45 hover:bg-sky-500/35 transition'
-          : 'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white/10 text-slate-300 border border-white/20 hover:bg-white/15 transition';
-      }
-
-      btnAutoRotate.addEventListener('click', () => {
-        autoRotate = !autoRotate;
-        updateAutoRotateBtn();
-      });
-
-      btnZoomIn.addEventListener('click', () => {
-        camState.desiredRadius = Math.max(3.8, camState.desiredRadius - 1.4);
-      });
-
-      btnZoomOut.addEventListener('click', () => {
-        camState.desiredRadius = Math.min(17.5, camState.desiredRadius + 1.4);
-      });
-
-      // Part Focus Buttons
-      const partTagEl = document.getElementById('part-tag');
-      const partTitleEl = document.getElementById('part-title');
-      const partDescEl = document.getElementById('part-desc');
-
-      function focusPart(partKey) {
-        const info = PART_INFO[partKey];
-        if (!info) return;
-
-        camState.desiredTheta = info.cam.theta;
-        camState.desiredPhi = info.cam.phi;
-        camState.desiredRadius = info.cam.radius;
-        camState.desiredTarget.set(info.cam.target[0], info.cam.target[1], info.cam.target[2]);
-
-        autoRotate = (partKey === 'overview');
-        updateAutoRotateBtn();
-
-        if (info.openLid !== null) {
-          sim.lidOpen = info.openLid;
-        }
-
-        partTagEl.textContent = info.tag;
-        partTitleEl.textContent = info.title;
-        partDescEl.textContent = info.desc;
-
-        document.querySelectorAll('.part-btn').forEach((b) => {
-          const active = b.dataset.part === partKey;
-          if (b.dataset.part === 'blackbox') {
-            b.className = active
-              ? 'part-btn px-3 py-2 rounded-xl text-xs font-bold bg-amber-400/35 text-white border border-amber-300 transition'
-              : 'part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-amber-500/15 text-amber-200 border border-amber-400/35 hover:bg-amber-500/25 transition';
-          } else {
-            b.className = active
-              ? 'part-btn px-3 py-2 rounded-xl text-xs font-bold bg-sky-500/35 text-white border border-sky-400/70 transition'
-              : 'part-btn px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-200 border border-white/15 hover:bg-white/10 transition';
-          }
-        });
-
+      el('btn-autorotate').onclick = () => { autoRotate = !autoRotate; el('btn-autorotate').textContent = autoRotate ? 'Tự xoay 360°: BẬT' : 'Tự xoay 360°: TẮT'; };
+      el('btn-zoom-in').onclick = () => cam.dR = Math.max(4.2, cam.dR - 1.4);
+      el('btn-zoom-out').onclick = () => cam.dR = Math.min(19, cam.dR + 1.4);
+      function focusPart(k) {
+        const p = PART_INFO[k]; if (!p) return;
+        cam.dTh = p.cam.theta; cam.dPh = p.cam.phi; cam.dR = p.cam.radius; cam.dTg.set(...p.cam.target);
+        autoRotate = (k === 'overview'); el('btn-autorotate').textContent = autoRotate ? 'Tự xoay 360°: BẬT' : 'Tự xoay 360°: TẮT';
+        if (p.lid !== null) sim.lidOpen = p.lid;
+        el('part-tag').textContent = p.tag; el('part-title').textContent = p.title; el('part-desc').textContent = p.desc;
         syncUI();
       }
+      document.querySelectorAll('.part-btn').forEach(b => b.onclick = () => focusPart(b.dataset.part));
+      el('btn-reset-cam').onclick = () => focusPart('overview');
 
-      document.querySelectorAll('.part-btn').forEach((btn) => {
-        btn.addEventListener('click', () => focusPart(btn.dataset.part));
+      window.addEventListener('resize', () => {
+        if (!container.clientWidth) return;
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
       });
 
-      btnResetCam.addEventListener('click', () => focusPart('overview'));
+      // Animation Loop
+      const wfStarts = [[-1.05, 3.6, -0.75], [-1.35, 3.35, -0.6], [-1.92, 2.75, -0.3], [-2.52, 2.15, 0.02]];
+      const wfEnds   = [[-1.58, 2.95, -0.45], [-2.12, 2.35, -0.15], [-2.68, 1.78, 0.15], [-3.12, 1.54, 0.42]];
+      const clock = new THREE.Clock(); let sampleAcc = 0;
 
-      // Responsive Resize Handling
-      function handle3DResize() {
-        if (!container) return;
-        const w = container.clientWidth;
-        const h = container.clientHeight;
-        if (w === 0 || h === 0) return;
-        camera.aspect = w / h;
-        camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
-      }
-      window.addEventListener('resize', handle3DResize);
-
-      // -------------------- 14. ANIMATION LOOP --------------------
-      const clock = new THREE.Clock();
-      let uiSyncAccum = 0;
-
-      // Waterfall path waypoints
-      const wfStarts = [
-        new THREE.Vector3(1.22, 2.42, -1.12), // Bottle spout
-        new THREE.Vector3(0.75, 1.92, -0.35), // Tier 1 lip
-        new THREE.Vector3(0.32, 1.24, 0.52)   // Tier 2 lip
-      ];
-      const wfEnds = [
-        new THREE.Vector3(0.95, 1.88, -0.72), // Into Tier 1
-        new THREE.Vector3(0.45, 1.22, 0.12),  // Into Tier 2
-        new THREE.Vector3(0.28, 0.66, 0.68)   // Into Pond
-      ];
-
-      function animate3D() {
-        requestAnimationFrame(animate3D);
-        const dt = Math.min(clock.getDelta(), 0.05);
-        const elapsed = clock.getElapsedTime();
-        const nowMs = performance.now();
-
-        // Update eco cycle timer
-        if (sim.wfMode === 2) {
-          sim.cycleTimer += dt;
+      (function animate() {
+        requestAnimationFrame(animate);
+        const dt = Math.min(clock.getDelta(), 0.05), elap = clock.getElapsedTime();
+        if (sim.wfMode === 2) sim.cycleT += dt;
+        if (sim.p1DemoUntil > 0 && performance.now() >= sim.p1DemoUntil) { sim.p1DemoUntil = 0; sim.p1 = false; showToast('Hoàn thành tưới thử 3 giây!'); syncUI(); }
+        if (sim.p1) {
+          sim.moisture = Math.min(100, sim.moisture + dt * 4.5);
+          if (sim.autoMode && sim.p1DemoUntil === 0 && sim.moisture >= 55) { sim.p1 = false; showToast('Đủ ẩm 55% — Bơm 1 tự ngắt chống úng!'); syncUI(); }
         }
 
-        // Demo 3-second countdown end check
-        if (sim.p1DemoUntil > 0 && nowMs >= sim.p1DemoUntil) {
-          sim.p1DemoUntil = 0;
-          if (sim.autoMode) {
-            sim.p1Running = sim.moisture <= 35;
-          } else {
-            sim.p1Running = false;
-          }
-          showToast('Đã hoàn thành tưới thử 3 giây!');
-          syncUI();
-        }
+        // Swim fish smoothly inside tank
+        fishList.forEach(f => {
+          const a = elap * f.spd + f.phase;
+          const nx = f.cx + Math.cos(a) * f.rx, nz = f.cz + Math.sin(a) * f.rz;
+          const dx = -Math.sin(a) * f.rx, dz = Math.cos(a) * f.rz;
+          f.mesh.position.set(nx, f.cy + Math.sin(a * 2) * 0.04, nz);
+          f.mesh.rotation.y = Math.atan2(-dz, dx);
+        });
 
-        // Gradual moisture rise when Pump 1 is actively watering
-        if (sim.p1Running) {
-          sim.moisture = Math.min(100, sim.moisture + dt * 5.2);
-          if (sim.autoMode && sim.p1DemoUntil === 0 && sim.moisture >= 55) {
-            sim.p1Running = false;
-            showToast('Đất đã đạt 55% — Bơm 1 tự ngắt chống úng!');
-            syncUI();
-          }
-        }
+        // Lid open animation
+        sim.lidProg += ((sim.lidOpen ? 1 : 0) - sim.lidProg) * Math.min(1, dt * 6);
+        lidGroup.position.y = bh + 0.05 + sim.lidProg * 0.7;
+        lidGroup.position.z = -sim.lidProg * 0.55;
+        lidGroup.rotation.x = -sim.lidProg * 0.5;
+        boxLight.intensity = sim.lidProg * 1.4;
 
-        uiSyncAccum += dt;
-        if (uiSyncAccum >= 0.2) {
-          uiSyncAccum = 0;
-          syncUI();
-        }
-
-        // Animate Black Waterproof Box Lid (smooth slide & tilt open)
-        const lidTarget = sim.lidOpen ? 1 : 0;
-        sim.lidProgress += (lidTarget - sim.lidProgress) * Math.min(1, dt * 6);
-        boxLidGroup.position.y = bh + 0.05 + sim.lidProgress * 0.72;
-        boxLidGroup.position.z = -sim.lidProgress * 0.58;
-        boxLidGroup.rotation.x = -sim.lidProgress * 0.52;
-        boxLight.intensity = sim.lidProgress * 1.4;
-
-        // Blink ESP8266 Wi-Fi LED softly
-        const wifiBlink = 0.5 + 0.5 * Math.sin(elapsed * 5);
-        espLedMat.color.setRGB(0.2 * wifiBlink + 0.1, 0.7 * wifiBlink + 0.15, 1.0);
-
-        // Animate Waterfall Particles (Speed & arc driven by PWM slider)
-        const wfOn = isWaterfallActiveNow();
-        const speedFactor = 0.55 + (sim.wfPower / 100) * 1.15;
-        wfParticles.visible = wfOn;
-        tubeDots.visible = wfOn;
-
-        if (wfOn) {
-          const posArr = wfGeo.attributes.position.array;
-          for (let i = 0; i < WF_COUNT; i++) {
-            const meta = wfMeta[i];
-            meta.t += dt * 1.45 * speedFactor;
-            if (meta.t > 1) meta.t -= 1;
-            const s = wfStarts[meta.segment];
-            const e = wfEnds[meta.segment];
-            const t = meta.t;
-            // Parabolic gravity arc
-            const x = s.x + (e.x - s.x) * t + meta.jitterX * (0.4 + t * 0.6);
-            const z = s.z + (e.z - s.z) * t + meta.jitterZ * (0.4 + t * 0.6);
-            const y = s.y + (e.y - s.y) * t + Math.sin(t * Math.PI) * 0.14 * (sim.wfPower / 100);
-            posArr[i * 3] = x;
-            posArr[i * 3 + 1] = y;
-            posArr[i * 3 + 2] = z;
+        // Waterfall 4-tier particles
+        const effWf = getEffWf();
+        wfPoints.visible = effWf > 0;
+        if (effWf > 0) {
+          const spd = 0.65 + (effWf / 100) * 1.2;
+          const arr = wfGeo.attributes.position.array;
+          for (let i = 0; i < wfCnt; i++) {
+            const m = wfMeta[i]; m.t = (m.t + dt * 1.55 * spd) % 1;
+            const s = wfStarts[m.seg], e = wfEnds[m.seg], t = m.t;
+            arr[i * 3]     = s[0] + (e[0] - s[0]) * t + m.jx * t;
+            arr[i * 3 + 1] = s[1] + (e[1] - s[1]) * t + Math.sin(t * Math.PI) * 0.12;
+            arr[i * 3 + 2] = s[2] + (e[2] - s[2]) * t + m.jz * t;
           }
           wfGeo.attributes.position.needsUpdate = true;
+          const r = (elap * spd * 0.9) % 1;
+          ripple.scale.setScalar(0.5 + r * 2.1); ripple.material.opacity = (1 - r) * 0.65;
+        } else ripple.material.opacity = 0.08;
 
-          // Water bubbles rising inside Tube 2
-          const tArr = tubeDotGeo.attributes.position.array;
-          for (let i = 0; i < TUBE_DOTS; i++) {
-            tubeDotT[i] += dt * 0.45 * speedFactor;
-            if (tubeDotT[i] > 1) tubeDotT[i] -= 1;
-            const pt = tube2Curve.getPointAt(tubeDotT[i]);
-            tArr[i * 3] = pt.x;
-            tArr[i * 3 + 1] = pt.y;
-            tArr[i * 3 + 2] = pt.z;
+        // Drip irrigation droplets
+        dripPoints.visible = sim.p1;
+        if (sim.p1) {
+          const arr = dripGeo.attributes.position.array;
+          for (let i = 0; i < dripCnt; i++) {
+            const m = dripMeta[i]; m.t = (m.t + dt * 1.9) % 1;
+            arr[i * 3] = m.o[0]; arr[i * 3 + 1] = m.o[1] - m.t * 0.42; arr[i * 3 + 2] = m.o[2];
           }
-          tubeDotGeo.attributes.position.needsUpdate = true;
-
-          // Animated splash ripples in pond
-          const r1 = ((elapsed * speedFactor * 0.8) % 1);
-          ripple1.scale.setScalar(0.5 + r1 * 2.2);
-          ripple1.material.opacity = (1 - r1) * 0.65;
-          const r2 = (((elapsed * speedFactor * 0.8) + 0.5) % 1);
-          ripple2.scale.setScalar(0.5 + r2 * 2.2);
-          ripple2.material.opacity = (1 - r2) * 0.55;
-        } else {
-          ripple1.material.opacity = 0.08;
-          ripple2.material.opacity = 0.05;
+          dripGeo.attributes.position.needsUpdate = true;
         }
 
-        // Animate Pump 1 Garden Water Spray Jets
-        sprayParticles.visible = sim.p1Running;
-        if (sim.p1Running) {
-          const spArr = sprayGeo.attributes.position.array;
-          const originX = -2.35, originY = 1.18, originZ = 0.15;
-          for (let i = 0; i < SPRAY_COUNT; i++) {
-            const sm = sprayMeta[i];
-            sm.t += dt * 1.85;
-            if (sm.t > 1) sm.t -= 1;
-            const t = sm.t;
-            spArr[i * 3] = originX + sm.vx * t * 1.1;
-            spArr[i * 3 + 1] = originY + sm.vy * t - 1.05 * t * t;
-            spArr[i * 3 + 2] = originZ + sm.vz * t * 1.1;
+        // Recirculation water return particles under roots -> pond
+        retPoints.visible = sim.p1 || effWf > 0;
+        if (retPoints.visible) {
+          const arr = retGeo.attributes.position.array;
+          for (let i = 0; i < retCnt; i++) {
+            retT[i] = (retT[i] + dt * 0.35) % 1;
+            arr[i * 3] = 3.8 - retT[i] * 5.2;
+            arr[i * 3 + 1] = 0.42;
+            arr[i * 3 + 2] = ((i % 3) - 1) * 1.25;
           }
-          sprayGeo.attributes.position.needsUpdate = true;
+          retGeo.attributes.position.needsUpdate = true;
         }
 
-        // Subtle water surface bobbing
-        pondWater.position.y = 0.42 + Math.sin(elapsed * 2.4) * 0.008;
-
-        // Smooth camera orbit interpolation
-        if (autoRotate && !isDragging) {
-          camState.desiredTheta += dt * 0.24;
+        // Record chart sample every 0.8s
+        sampleAcc += dt;
+        if (sampleAcc >= 0.8) {
+          sampleAcc = 0;
+          chartHist.push({ ts: new Date().toLocaleTimeString('vi-VN'), m: sim.moisture, t: sim.soilTemp, p1: sim.p1, wf: effWf, led: sim.ledPower });
+          if (chartHist.length > 45) chartHist.shift();
+          drawMiniChart(); syncUI();
         }
-        const damp = Math.min(1, dt * 6.5);
-        camState.theta += (camState.desiredTheta - camState.theta) * damp;
-        camState.phi += (camState.desiredPhi - camState.phi) * damp;
-        camState.radius += (camState.desiredRadius - camState.radius) * damp;
-        camState.target.lerp(camState.desiredTarget, damp);
 
-        camera.position.x = camState.target.x + camState.radius * Math.sin(camState.phi) * Math.sin(camState.theta);
-        camera.position.y = camState.target.y + camState.radius * Math.cos(camState.phi);
-        camera.position.z = camState.target.z + camState.radius * Math.sin(camState.phi) * Math.cos(camState.theta);
-        camera.lookAt(camState.target);
-
+        if (autoRotate && !dragging) cam.dTh += dt * 0.22;
+        const k = Math.min(1, dt * 6);
+        cam.th += (cam.dTh - cam.th) * k; cam.ph += (cam.dPh - cam.ph) * k;
+        cam.r += (cam.dR - cam.r) * k; cam.tg.lerp(cam.dTg, k);
+        camera.position.set(cam.tg.x + cam.r * Math.sin(cam.ph) * Math.sin(cam.th), cam.tg.y + cam.r * Math.cos(cam.ph), cam.tg.z + cam.r * Math.sin(cam.ph) * Math.cos(cam.th));
+        camera.lookAt(cam.tg);
         renderer.render(scene, camera);
-      }
-
+      })();
       syncUI();
-      animate3D();
     }
 
-    // Start both galaxy canvas and 3D model safely on window load
-    window.onload = function () {
-      initGalaxyBackground();
-      init3DScene();
-    };
+    window.onload = () => { initGalaxyBackground(); init3DScene(); };
   </script>
 </body>
 </html>
